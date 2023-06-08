@@ -11,8 +11,10 @@
 // 4) we want to update the note also. We would take title and description as inputs. we would update the note description having the title which is passed.
 //5) we would delete the note based on the title which is being passed in command.
 const yargs = require("yargs");
+const {createNote, updateNote, deleteNote} = require("./handlers");
 // node note.js create --title="" --description=""
 
+//create operation
 yargs.command({
     command: 'create',
     describe: "This command creates a new note",
@@ -28,13 +30,51 @@ yargs.command({
             demandOption: true
         }   
     },
-    handler: function (argv) {
-        console.log("inside", argv.title, argv.description)
-    }
+    handler: createNote
 })
 .argv
 
 
+
+//update operatioon
+yargs.command({
+    command: 'update',
+    describe: "This command updates the created note",
+    builder: {
+        title: {
+            type: 'string',
+            describe: 'This argument is required with create command to specify the title of note',
+            demandOption: true
+        },
+        description: {
+            type: 'string',
+            describe: 'This argument is required with create command to specify the description of note',
+            demandOption: true
+        } 
+    },
+    handler: updateNote
+}).argv
+
+//read operation
+
+
+//delete operation
+
+yargs.command({
+    command: "delete",
+    describe: "This command deletes the given note",
+    builder: {
+        title: {
+            type: 'string',
+            describe: 'This argument is required with create command to specify the description of note',
+            demandOption: true
+        }
+    },
+    handler: deleteNote
+}).argv
+
+
+//
 // yargs.command()
 // console.log(yargs.argv)
 

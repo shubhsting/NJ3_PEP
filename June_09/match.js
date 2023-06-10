@@ -9,7 +9,12 @@ function scanThisMatch(matchURL) {
 }
 
 function callback(error, response, html) {
-    parseHTML(html)
+    if(error) {
+        console.log("error came");
+    } else {
+        parseHTML(html)
+    }
+    
 }
 
 // classes are always selected by .
@@ -43,6 +48,15 @@ function parseHTML(html) {
     }
 }
 
+// for every new batsman scan/fectch data from scorecard file
+// check whether an entry is already present for that batsman
+// if entry is present, update the current runs into that value
+// if entry is not present, add a new batsman value corresponding to the list.
+// once we do that, sort the scorecard in descending order 
+function createOrUpdateScorecard() {
+    
+}
+
 function processBatsmanDetails(teamName, batsmanName, batsmanRuns, batsManBalls, batsManFours, batsManSixes) {
     createTeamFolderIfNotExists(teamName);
 
@@ -55,9 +69,20 @@ function processBatsmanDetails(teamName, batsmanName, batsmanRuns, batsManBalls,
         sixes: batsManSixes
     }
 
-    fs.writeFileSync(batsManfilePath, JSON.stringify(batsManDetails))
+    createOrUpdateFile(batsManfilePath, batsManDetails);
 }
 
+function createOrUpdateFile(path, batsManDetails) {
+    let finalBatsmanEntries = []
+    if(fs.existsSync(path)) {
+        let batsmanEntries = fs.readFileSync(path, "utf-8");
+        batsmanEntries = JSON.parse(batsmanEntries);
+        finalBatsmanEntries = [...batsmanEntries]
+    }
+    finalBatsmanEntries = [...finalBatsmanEntries, batsManDetails]
+
+    fs.writeFileSync(path, JSON.stringify(finalBatsmanEntries))
+}
 
 function createTeamFolderIfNotExists(teamName) {
     const isFolderPresent = fs.existsSync(teamName);
@@ -65,4 +90,4 @@ function createTeamFolderIfNotExists(teamName) {
         fs.mkdirSync(teamName);
     }
 }
-scanThisMatch(URL);
+module.exports = scanThisMatch;

@@ -10,7 +10,7 @@ function scanThisMatch(matchURL) {
 
 function callback(error, response, html) {
     if(error) {
-        console.log("error came");
+        console.log("error came", error);
     } else {
         parseHTML(html)
     }
@@ -90,4 +90,5 @@ function createTeamFolderIfNotExists(teamName) {
         fs.mkdirSync(teamName);
     }
 }
+
 module.exports = scanThisMatch;

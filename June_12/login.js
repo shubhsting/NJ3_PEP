@@ -35,15 +35,9 @@ browserOpenPromise
     return submitButtonPromise;
   })
   .then(() => {
-    let waitPromise = tab.waitForSelector('a[data-attr1="algorithms"]', {
-      visible: true,
-    });
-    return waitPromise;
-  })
-  .then(() => {
-    // data-attr1="algorithms"
-    let clickOnAlgorithm = tab.click('a[data-attr1="algorithms"]');
-    return clickOnAlgorithm;
+    let waitAndClickPromise = waitAndClick('a[data-attr1="algorithms"]');
+    
+    return waitAndClickPromise;
   })
   .then(() => {
     let waitPromise = tab.waitForSelector(".challenges-list a", {
@@ -58,16 +52,33 @@ browserOpenPromise
   .then((problems) => {
     // [<a></a>, <a></a>, ]
     console.log(problems);
-    
+
     let problempromise = tab.evaluate((element) => {
-     return element.getAttribute("href");
+      return element.getAttribute("href");
     }, problems[0]);
 
     //first get link from local promise and then return
 
-// return (A)
+    // return (A)
     return Promise.all([problempromise]);
-  })//Promise(A))
+  }) //Promise(A))
   .then((problemLink) => {
     console.log(problemLink);
   });
+
+function waitAndClick(selector) {
+  return new Promise((resolve, reject) => {
+    let waitPromise = tab.waitForSelector(selector, { visible: true });
+    waitPromise
+      .then(() => {
+        let clickPromise = tab.click(selector);
+        return clickPromise;
+      })
+      .then(() => {
+        resolve();
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}

@@ -6,6 +6,9 @@ const browserOpenPromise = puppeteer.launch({
   args: ["--start-maximised"],
 });
 let tab;
+let idx;
+let codeContent;
+
 browserOpenPromise
   .then((browser) => {
     let pagesPromise = browser.pages();
@@ -85,7 +88,15 @@ function solveQuestion(link) {
         let getQuestionCodePromise = getCode();
         return getQuestionCodePromise;
       })
-      .then(()=>{
+      .then(() => {
+        const waitAndClickPromise = waitAndClick("#tab-1-item-0");
+        return waitAndClickPromise;
+      })
+      .then(() => {
+        let pasteCodePromise = pasteCode();
+        return pasteCodePromise;
+      })
+      .then(() => {
         resolve();
       })
       .catch((err) => {
@@ -94,6 +105,43 @@ function solveQuestion(link) {
   });
 }
 
+function pasteCode() {
+  return new Promise((resolve, reject) => {
+    let clickCheckBoxPromise = waitAndClick(".checkbox-input");
+    clickCheckBoxPromise
+      .then(() => {
+        let codeTypePromise = tab.type(".custom-input", codeContent);
+        return codeTypePromise;
+      })
+      .then(() => {
+        //select all > ctrl+a
+        //cut ctrl + x
+        let ctrlKeyPressPromise = tab.keyboard.down("Control");
+        return ctrlKeyPressPromise;
+      })
+      .then(() => {
+        let akeyPressPromise = tab.keyboard.press("a");
+        console.log("pressed a ")
+        return akeyPressPromise;
+      })
+      .then(() => {
+        let xkeyPressPromise = tab.keyboard.press("x");
+        return xkeyPressPromise;
+      }).then(()=>{
+        let makeCodeInputActive = tab.click(".monaco-editor.no-user-select.vs")
+        return makeCodeInputActive;
+      }).then(() => {
+        let akeyPressPromise = tab.keyboard.press("a");
+        return akeyPressPromise;
+      })
+      .then(() => {
+        let vkeyPressPromise = tab.keyboard.press("v");
+        return vkeyPressPromise;
+      }).then(()=>{
+        resolve()
+      })
+  });
+}
 function getCode() {
   return new Promise((resolve, reject) => {
     let waitForH3 = tab.waitForSelector(".hackdown-content h3");
@@ -114,10 +162,33 @@ function getCode() {
         return Promise.all(allCodeNamesP);
       })
       .then((allCodeNames) => {
-        console.log(allCodeNames);
+        for (let i = 0; i < allCodeNames.length; i++) {
+          if (allCodeNames[i] == "C++") {
+            idx = i;
+            break;
+          }
+        }
+        const codeContentsPromise = tab.$$(".hackdown-content .highlight");
+        return codeContentsPromise;
+      })
+      .then((codeContents) => {
+        // [<div></div>, <div></div>]
+        let codeContentDiv = codeContents[idx];
+        let codePromise = tab.evaluate((elem) => {
+          return elem.textContent;
+        }, codeContentDiv);
+        return codePromise;
+      })
+      .then((code) => {
+        codeContent = code;
+        resolve(code);
+      })
+      .catch((err) => {
+        reject(err);
       });
   });
 }
+
 function waitAndClick(selector) {
   return new Promise((resolve, reject) => {
     let waitPromise = tab.waitForSelector(selector, { visible: true });

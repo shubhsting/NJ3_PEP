@@ -36,7 +36,7 @@ browserOpenPromise
   })
   .then(() => {
     let waitAndClickPromise = waitAndClick('a[data-attr1="algorithms"]');
-    
+
     return waitAndClickPromise;
   })
   .then(() => {
@@ -63,9 +63,61 @@ browserOpenPromise
     return Promise.all([problempromise]);
   }) //Promise(A))
   .then((problemLink) => {
-    console.log(problemLink);
+    let completeProblemLink = "https://www.hackerrank.com/" + problemLink;
+    let solveQuestionPromise = solveQuestion(completeProblemLink);
+    return solveQuestionPromise;
   });
 
+function solveQuestion(link) {
+  return new Promise((resolve, reject) => {
+    let questionGoToPromise = tab.goto(link);
+    questionGoToPromise
+      .then(() => {
+        console.log("question opened!!");
+        let waitAndOpenpromise = waitAndClick('a[data-attr2="Submissions"]');
+        return waitAndOpenpromise;
+      })
+      .then(() => {
+        let waitAndClickPromise = waitAndClick('a[data-attr2="Editorial"]');
+        return waitAndClickPromise;
+      })
+      .then(() => {
+        let getQuestionCodePromise = getCode();
+        return getQuestionCodePromise;
+      })
+      .then(()=>{
+        resolve();
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+function getCode() {
+  return new Promise((resolve, reject) => {
+    let waitForH3 = tab.waitForSelector(".hackdown-content h3");
+    waitForH3
+      .then(() => {
+        let allCodeNamesPromise = tab.$$(".hackdown-content h3");
+        return allCodeNamesPromise;
+      })
+      .then((allCodeNames) => {
+        // [<h3>C++</h3>, <h3>Java</h3>]
+        let allCodeNamesP = [];
+        for (const codeName of allCodeNames) {
+          let namePromise = tab.evaluate((elem) => {
+            return elem.textContent;
+          }, codeName);
+          allCodeNamesP.push(namePromise);
+        }
+        return Promise.all(allCodeNamesP);
+      })
+      .then((allCodeNames) => {
+        console.log(allCodeNames);
+      });
+  });
+}
 function waitAndClick(selector) {
   return new Promise((resolve, reject) => {
     let waitPromise = tab.waitForSelector(selector, { visible: true });

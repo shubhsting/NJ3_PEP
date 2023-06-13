@@ -95,6 +95,9 @@ function solveQuestion(link) {
       .then(() => {
         let pasteCodePromise = pasteCode();
         return pasteCodePromise;
+      }).then(()=>{
+        let submitButtonPressPromise = tab.click(".ui-btn.ui-btn-normal.ui-btn-primary.hr-monaco-submit")
+        return submitButtonPressPromise;
       })
       .then(() => {
         resolve();

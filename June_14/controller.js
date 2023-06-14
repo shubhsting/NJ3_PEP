@@ -16,7 +16,6 @@ async function createNote(req, res) {
       }
     }
 
-    console.log("new note have been added!!");
     const newListOfNotes = [
       { title: title, description: description },
       ...alreadyPresentNotes,
@@ -66,8 +65,55 @@ async function updateNote(req, res) {
   } catch (e) {
     return res
       .status(500)
-      .json({ message: `Some client error occurred while updating note ${e}` });
+      .json({ message: `Some  error occurred while updating note ${e}` });
   }
 }
 
-module.exports = { createNote, updateNote };
+async function deleteNote(req, res) {
+  try {
+    const { title } = req.query;
+    let newNotesList = [];
+    let alreadyPresentNotes = fs.readFileSync("notes.txt", "utf-8");
+    alreadyPresentNotes = JSON.parse(alreadyPresentNotes);
+    for (const element of alreadyPresentNotes) {
+      if (element.title !== title) {
+        newNotesList.push(element);
+      }
+    }
+    fs.writeFileSync("notes.txt", JSON.stringify(newNotesList));
+    return res.status(200).json({
+      message: "Successfully deleted the note",
+    });
+  } catch (e) {
+    res.status(500).send({
+      message: `Some error occurred while deleting ${e}`,
+    });
+  }
+}
+
+async function getNote(req, res) {
+  try {
+    const { title } = req.query;
+
+    let alreadyPresentNotes = fs.readFileSync("notes.txt", "utf-8");
+    alreadyPresentNotes = JSON.parse(alreadyPresentNotes);
+    for (const element of alreadyPresentNotes) {
+      if (element.title == title) {
+        return res.status(200).json({
+          note: element,
+          message: "note found!!",
+        });
+      }
+    }
+
+    return res.status(400).json({
+      message: "Note is not present in list",
+    });
+  } catch (e) {
+    res.status(500).send({
+      message: `Some error occurred while fetching note ${e}`,
+    });
+  }
+}
+
+module.exports = { createNote, updateNote, deleteNote, getNote };

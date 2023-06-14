@@ -1,5 +1,5 @@
 const express = require('express')
-const { createNote, updateNote } = require('./controller')
+const { createNote, updateNote, deleteNote, getNote } = require('./controller')
 //server
 const app = express()
 
@@ -14,6 +14,9 @@ app.post('/notes/create', createNote)
 
 app.post("/notes/update", updateNote)
 
+app.delete("/note", deleteNote)
+
+app.get("/note", getNote)
 //server start
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

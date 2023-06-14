@@ -1,0 +1,25 @@
+// We would create 3 routes
+
+
+/note/create -> we would pass title and description in request body and that would create a note and store in a different file
+/note/update -> we would pass title and description in request and it would update the node that is already present
+/note/delete -> it would delete the note
+
+
+
+
+route
+are always associated with requests
+get-> body -> parameters 
+post ->
+put
+delete ->
+
+
+status
+
+
+status is always associated with response
+
+OK: 200
+500: internal server error

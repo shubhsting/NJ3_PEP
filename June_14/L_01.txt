@@ -1,0 +1,76 @@
+
+
+
+
+client1                 client2                                 client3                             client4
+
+
+/login                   /messages                              /refresh-messages               /delete-message
+
+
+
+                                            [Internet Protocols IP]
+
+
+
+                                                [Server] (organisation) localhost:3000
+
+Route1                                              route2                                      route3                          route4
+/messages                                            /login                                   /delete-message                   /refresh-message
+
+
+Controller                                           Controller                              Controller                             Controller
+
+will go to table and fetch all messages             call google service to              will go to db table and                     fetch all the messages and return
+                                                        login via email                 delete the message entry
+
+                                                application logic 
+
+
+
+
+
+
+notes application
+
+
+1) create a server using node js.
+2) create routes using node js
+3) create corresponding controllers
+
+create /note/create         
+update  /note/update
+delete  /note/delete
+read    /note/
+
+
+postman just ui trigger the route
+
+mongodb  
+
+sql     
+1) relational db 
+// contraints, schema, relations between them
+
+
+user
+
+id first_name last_name  phone_number last activity desktop lastActivuty mobile
+1   Shubham     Singh       1234            98798779            09823778e79
+
+
+no sql 
+1) no  relational 
+2) ACID properties are not applicable
+
+{1,Shubham, Singh}
+{1,Test, Last, 123454,54675, 876276,87376,89378}
+
+
+
+{"lastActivity":{
+    "desktop" :92093908,
+    "mobile application": 128679827972}}
+
+
+express.js

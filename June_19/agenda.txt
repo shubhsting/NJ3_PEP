@@ -1,0 +1,26 @@
+1) mongodb basics
+2) connecting to mongo cluster
+3) notes app... we converted it to api...we ould be integrating mongo db into it
+4) we would start new project by creating google calendar
+    1) authentication + why do we need it
+    2) create multiple events on our calendar via api.
+    3) CRUD operations on these calendar events.
+
+
+
+
+
+
+
+
+
+
+                                user: name, password
+                                : link
+                                cluster remote machine (instance) we have our mongo db table(collections)
+
+
+
+
+// MVC architecture
+models, views,controller

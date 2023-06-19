@@ -24,3 +24,27 @@
 
 // MVC architecture
 models, views,controller
+
+
+// API's for google calendar
+1) design a momgo db schema for this system
+2) user authentication (login into google calendar account using email and password)
+3) CRUD operations for task
+4) CRUD operations for events.
+
+
+/login -> username and password   req backend -> ddb check entry -> user valid or note -> response
+
+-> identifier : token: details
+
+browser -> stores that identifier in cookies/browser cache
+
+
+/account
+
+
+/login -> check if user is valid or not : return identifier
+
+website local cookie storeed at browser end and then every request contains that token
+
+/ middleware: 

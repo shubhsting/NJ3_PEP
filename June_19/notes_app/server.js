@@ -1,5 +1,6 @@
 const express = require('express')
 const { createNote, updateNote, deleteNote, getNote } = require('./controller/notesController')
+const { testMiddleware } = require('./middleware/tm')
 //server
 const app = express()
 
@@ -10,7 +11,7 @@ app.use(express.json())
 //route
 
 //if i trigger post request with this /notes/create route, the logic written in createNote should be implemented
-app.post('/notes/create', createNote)
+app.post('/notes/create', testMiddleware, createNote)
 
 app.post("/notes/update", updateNote)
 

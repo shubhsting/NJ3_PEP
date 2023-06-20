@@ -49,3 +49,14 @@ API's support:
         2.4.2 substring search 
 
 4. create a middleware that validates user details/token for every api.
+
+
+
+
+password hashing using bcrypt: 12345 , cgcscvhxbhjsj
+
+
+12345 -> hash convert -> match with db value
+
+
+bcrypt

@@ -26,7 +26,7 @@ const eventSchema = new mongoose.Schema({
     type: String
   },
   userId: {
-    type: Number,
+    type: String,
     required: true
   }
 })

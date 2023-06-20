@@ -80,6 +80,15 @@ async function getUser(req, res) {
     }
 }
 
+
+async function updateUser(params) {
+    
+}
+ 
+async function deleteUser(params) {
+    
+}
+
 module.exports = {
     login, signUp, getUser
 }

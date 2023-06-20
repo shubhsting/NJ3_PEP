@@ -16,14 +16,14 @@ async function userAuth(req, res, next) {
         const user = await userModel.findOne({email: decoded.data});
         if(!user) {
             return res.status(401).send({
-                message: "You are not authorised to access this accounta!!"
+                message: "You are not authorised to access this accounts!!"
             })
         }
         req.user = user;
         next();
     } catch(e) {
-        return res.status(500).send({
-            message: "exception occurred while fetching user in middleware!",
+        return res.status(401).send({
+            message: "You are not authorised to access this account!!",
             error:e
         })
     }

@@ -122,12 +122,12 @@ async function updateUser(req, res) {
   }
 }
 
-async function deleteUser(params) {
+async function deleteUser(req, res) {
   try {
-    await userModel.findByIdAndDelete(req.user.id)
+    await userModel.findByIdAndDelete(req.user.id);
     return res.status(200).send({
-      message: "user have been deleted!!!"
-    })
+      message: "user have been deleted!!!",
+    });
   } catch (e) {
     return res.status(500).send({
       message: "exception occurred while deleting user!!",
@@ -141,5 +141,5 @@ module.exports = {
   signUp,
   getUser,
   updateUser,
-  deleteUser
+  deleteUser,
 };

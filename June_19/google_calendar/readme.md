@@ -60,3 +60,15 @@ password hashing using bcrypt: 12345 , cgcscvhxbhjsj
 
 
 bcrypt
+
+
+// Things we learnt
+
+-> authentication using bcrypt and jwt
+-> middlewares
+-> mongo CRUD operations
+-> mongo query operations
+-> express router 
+-> MVC architecture 
+-> /update?id=peioi // query param   req.query
+-> /:id/update -> url param  req.params

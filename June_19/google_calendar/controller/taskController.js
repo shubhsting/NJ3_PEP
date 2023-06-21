@@ -58,6 +58,48 @@ async function updateTask(req, res) {
   }
 }
 
-async function deleteTask(req, res) {}
+async function getTasks(req, res) {
+  try {
+    const { start, end } = req.body;
+    const tasks = await taskModel.find({
+      userId: req.user._id,
+      startTime: { $gte: start, $lte: end },
+    });
 
-module.exports = { createTask, updateTask };
+    // const query = taskModel.find();
+    // query.collection(taskModel.collection);
+
+    // const tasks = await query.where('startTime').gte(start).lte(end).exec(callback);
+
+    return res.status(200).send({
+      message: "tasks fetched successfully",
+      tasks,
+    });
+  } catch (e) {
+    return res.status(500).send({
+      message: "exception occured suring get task",
+    });
+  }
+}
+async function deleteTask(req, res) {
+  try {
+    const { taskId } = req.params;
+    const task = await taskModel.findById(taskId);
+
+    if (task.userId != req.user._id) {
+      return res.status(401).send({
+        message: "This user is not authorised to delete this task",
+      });
+    }
+    await taskModel.findByIdAndDelete(taskId);
+    return res.status(200).send({
+      message: "task deleted!!!",
+    });
+  } catch (e) {
+    return res.status(500).send({
+      message: "exception occured during delete task",
+    });
+  }
+}
+
+module.exports = { createTask, updateTask, getTasks, deleteTask };

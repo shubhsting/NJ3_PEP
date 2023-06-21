@@ -1,22 +1,17 @@
 const express = require('express')
-const { signUp, login, getUser, updateUser, deleteUser } = require('./controller/userController')
 const userAuth = require('./middleware/userAuth')
-const { createTask, updateTask } = require('./controller/taskController')
+const userRoutes = require('./routes/userRoutes')
+const taskRoutes = require('./routes/taskRoutes')
+const eventRouter = require('./routes/eventRoutes')
 const app = express()
 const port = 3000
 
 app.use(express.json())
 
 
-app.post("/signup", signUp)
-app.post("/login", login)
-app.get("/profile", userAuth, getUser)
-app.post("/profile/update", userAuth, updateUser)
-app.delete("/profile", userAuth, deleteUser)
-
-app.post("/task/create", userAuth, createTask)
-app.post("/task/:taskId/update", userAuth, updateTask)
-
+app.use("/api/user", userRoutes)
+app.use("/api/task", taskRoutes)
+app.use("/api/event", eventRouter)
 
 // 
 app.listen(port, () => {

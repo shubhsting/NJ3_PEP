@@ -79,4 +79,22 @@ async function getNote(req, res) {
   }
 }
 
-module.exports = { createNote, updateNote, deleteNote, getNote };
+
+async function geAllNotes(req, res) {
+  try {
+
+    // get a note via title from mongodb
+    const notes = await notesModel.find({})
+   
+    return res.status(200).send({
+        message: "noteS found successfully",
+        notes: notes
+    })
+
+  } catch (e) {
+    res.status(500).send({
+      message: `Some error occurred while fetching note ${e}`,
+    });
+  }
+}
+module.exports = { createNote, updateNote, deleteNote, getNote, geAllNotes };

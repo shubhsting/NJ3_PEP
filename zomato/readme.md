@@ -116,6 +116,8 @@ API structure
 
 
 
+enum gender: ["Male", "female", "other"]
+user enters address-> ui(call geolocation and converts it into coordinates) , backend will stpre it as coordinates
 
 
 

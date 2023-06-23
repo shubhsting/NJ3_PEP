@@ -68,7 +68,7 @@ TABLE STRUCTURES
         -> name   
         -> image   
         -> category   
-        -> tag(optional)   
+        -> tags(optional)   
         -> description   
         -> price   
 
@@ -102,9 +102,9 @@ API structure
         -> create   
         -> update   
         -> delete   
-        -> get restaurant details   
-        -> get restaurant menu   
-        -> get restaurant reviews   
+        -> get restaurant details (get by slug/identifier)
+        -> get restaurant menu  (get by slug/identifier) 
+        -> get restaurant reviews   (get by slug/identifier)
 
     MENU_ITEMS    
         -> create item   
@@ -121,10 +121,12 @@ user enters address-> ui(call geolocation and converts it into coordinates) , ba
 
 
 
+slug is a unique identifier that is used in urls. 
 
 
 
 
 
-
-
+ui-> slug(restaurant identifier), userToken(uder identifier) , 
+middleware get restaurant details and get user details req.user = user, request.restaurant  
+controllers 

@@ -24,7 +24,7 @@ const reviewsSchema = new mongoose.Schema({
     type: String,
   },
   createdAt: {
-    type: Number,
+    type: Date,
   },
   tags: {
     type: [String],

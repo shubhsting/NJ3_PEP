@@ -4,7 +4,7 @@ const { handleException } = require("../util/exceptionHandler");
 async function createMenuItem(req, res) {
   try {
     const { name, image, category, tags, description, price } = req.body;
-    const menuItem = await menuItemsModel.findOne({ name, category, price });
+    const menuItem = await menuItemsModel.findOne({ name, category, price, restaurant_id: req.restaurant._id });
 
     if (menuItem) {
       return res.status(400).send({

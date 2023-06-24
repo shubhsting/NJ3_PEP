@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
   last_name: {
     type: String,
   },
+  password: {
+    type: String
+  },
   currentAddress: {
     type: String,
     required: true,
@@ -35,7 +38,6 @@ const userSchema = new mongoose.Schema({
       type: [Number],
       required: true,
     },
-    required: true,
   },
 });
 

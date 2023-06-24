@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const userModel = require("../Model/userModel");
 const jwt = require("jsonwebtoken");
+const { handleException } = require("../util/exceptionHandler");
 require("dotenv").config();
 
 async function login(req, res) {
@@ -36,10 +37,7 @@ async function login(req, res) {
       token: token,
     });
   } catch (e) {
-    return res.status(500).send({
-      message: "error occured while logging in!!!",
-      error: e,
-    });
+    return handleException(e, "LOGIN_CONTROLLER", res);
   }
 }
 
@@ -75,10 +73,7 @@ async function signup(req, res) {
       message: "Sign up successful! Kindly log in!",
     });
   } catch (e) {
-    return res.status(500).send({
-      message: "error occured while signing in!!!",
-      error: e,
-    });
+    return handleException(e, "SIGNUP_CONTROLLER", res);
   }
 }
 

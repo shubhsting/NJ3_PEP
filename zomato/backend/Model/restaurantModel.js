@@ -46,6 +46,7 @@ const restaurantSchema = new mongoose.Schema({
     // [{"day": "sunday", status: "Open", timeRange: [4 am to 7 am, 8 am to 11 am, 3pm to 9 pm ]}, {day: monday, status:closed, timeRange: []}]
     {
       day: {
+        type: String,
         enum: [
           "Sunday",
           "Monday",
@@ -57,6 +58,7 @@ const restaurantSchema = new mongoose.Schema({
         ],
       },
       status: {
+        type: String,
         enum: ["Open", "Closed"],
       },
       timeRange: [String], // [4 am to 7 am, 8 am to 11 am, 3pm to 9 pm ]

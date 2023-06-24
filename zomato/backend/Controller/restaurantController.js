@@ -43,12 +43,12 @@ async function registerRestaurant(req, res) {
         message: "This restaurant already exists!!",
       });
     }
-    await restaurantModel.create(restaurantInfo);
+    const createdRestaurant = await restaurantModel.create(restaurantInfo);
     return res.status(200).send({
       message: "restaurant registered successfully",
+      data: createdRestaurant,
     });
   } catch (e) {
-    console.log(e);
     return handleException(e, "REGISTER_RESTAURANT_CONTROLLER", res);
   }
 }

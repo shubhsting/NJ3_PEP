@@ -52,22 +52,26 @@ async function registerRestaurant(req, res) {
   }
 }
 
-
- async function uploadRestaurantPhotos(req, res) {
-  try{
+async function uploadRestaurantPhotos(req, res) {
+  try {
     const fileDetails = req.files;
+    if (!fileDetails) {
+      return res.status(400).send({
+        message: "invalid image!!",
+      });
+    }
     const restaurant = await restaurantModel.findById(req.restaurant._id);
-    const filePaths = restaurant.photos
-    for(const image of fileDetails) {
-      filePaths.push(image.path)
+    const filePaths = restaurant.photos;
+    for (const image of fileDetails) {
+      filePaths.push(image.path);
     }
     restaurant.photos = filePaths;
     await restaurant.save();
     return res.status(200).send({
-      message: "images uploaded successfully!!"
-    })
-  } catch(e) {
+      message: "images uploaded successfully!!",
+    });
+  } catch (e) {
     return handleException(e, "UPLOAD_RESTAURANT_PHOTOS_CONTROLLER", res);
   }
 }
-module.exports = { registerRestaurant, uploadRestaurantPhotos};
+module.exports = { registerRestaurant, uploadRestaurantPhotos };

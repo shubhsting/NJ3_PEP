@@ -136,3 +136,11 @@ controllers
 
 
 user -> ui upload image->   /upload-image-> image ->  multer(image) -> put the image in public folder
+
+    req.params = {itemId: "123455"}
+
+    const { itemId } = req.params;
+    const itemId =  req.params;
+
+    1) itemId=123455
+    2) itemiD = {itemId: "123455"}

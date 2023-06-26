@@ -15,7 +15,6 @@ async function registerRestaurant(req, res) {
       owner_email,
       popularDishes,
       openingHours,
-      photos,
       more_info,
     } = req.body;
 
@@ -31,9 +30,9 @@ async function registerRestaurant(req, res) {
       owner_email,
       popularDishes,
       openingHours,
-      photos,
       more_info,
       slug,
+      photos: [],
       created_by: req.user._id,
     };
     const restaurant = await restaurantModel.findOne({ name, completeAddress });
@@ -53,4 +52,22 @@ async function registerRestaurant(req, res) {
   }
 }
 
-module.exports = { registerRestaurant };
+
+ async function uploadRestaurantPhotos(req, res) {
+  try{
+    const fileDetails = req.files;
+    const restaurant = await restaurantModel.findById(req.restaurant._id);
+    const filePaths = restaurant.photos
+    for(const image of fileDetails) {
+      filePaths.push(image.path)
+    }
+    restaurant.photos = filePaths;
+    await restaurant.save();
+    return res.status(200).send({
+      message: "images uploaded successfully!!"
+    })
+  } catch(e) {
+    return handleException(e, "UPLOAD_RESTAURANT_PHOTOS_CONTROLLER", res);
+  }
+}
+module.exports = { registerRestaurant, uploadRestaurantPhotos};

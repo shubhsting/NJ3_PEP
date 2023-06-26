@@ -130,3 +130,9 @@ slug is a unique identifier that is used in urls.
 ui-> slug(restaurant identifier), userToken(uder identifier) , 
 middleware get restaurant details and get user details req.user = user, request.restaurant  
 controllers 
+
+
+
+
+
+user -> ui upload image->   /upload-image-> image ->  multer(image) -> put the image in public folder

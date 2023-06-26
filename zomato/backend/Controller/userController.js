@@ -66,7 +66,7 @@ async function signup(req, res) {
       last_name,
       currentAddress,
       geoCurrentAddress,
-      password: hashedPassword
+      password: hashedPassword,
     };
     await userModel.create(userInfo);
     return res.status(200).send({
@@ -77,6 +77,28 @@ async function signup(req, res) {
   }
 }
 
-module.exports = {
-    login, signup
+async function uploadProfilePicture(req, res) {
+  try {
+    const imageDetails = req.file;
+    if (!imageDetails) {
+      return res.status(400).send({
+        message: "invalid image!!",
+      });
+    }
+    const imagePath = imageDetails.path;
+    const user = await userModel.findById(req.user._id);
+    user.profile_image = imagePath;
+    await user.save();
+
+    return res
+      .status(200)
+      .send({ message: "user image uploaded successfully" });
+  } catch (e) {
+    return handleException(e, "UPLOAD_PP_CONTROLLER", res);
+  }
 }
+module.exports = {
+  login,
+  signup,
+  uploadProfilePicture,
+};

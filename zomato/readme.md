@@ -144,3 +144,10 @@ user -> ui upload image->   /upload-image-> image ->  multer(image) -> put the i
 
     1) itemId=123455
     2) itemiD = {itemId: "123455"}
+
+
+routes 
+
+/api/restaurant -> controller run
+
+frontend -> /login -> page load 

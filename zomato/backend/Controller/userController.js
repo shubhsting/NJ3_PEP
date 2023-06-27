@@ -68,6 +68,8 @@ async function signup(req, res) {
       geoCurrentAddress,
       password: hashedPassword,
     };
+
+    //geocoding api fetch coordinates
     await userModel.create(userInfo);
     return res.status(200).send({
       message: "Sign up successful! Kindly log in!",
@@ -97,8 +99,22 @@ async function uploadProfilePicture(req, res) {
     return handleException(e, "UPLOAD_PP_CONTROLLER", res);
   }
 }
+
+async function getUserDetails(req, res) {
+  try {
+    return res.status(200).send({
+      message: "user fetched successfully",
+      user: req.user,
+    });
+  } catch (e) {
+    console.log(e)
+    return handleException(e, "GET_USER_DETAILS", res);
+  }
+}
+
 module.exports = {
   login,
   signup,
   uploadProfilePicture,
+  getUserDetails
 };

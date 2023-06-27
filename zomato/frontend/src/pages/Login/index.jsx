@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
+import { useCookies } from 'react-cookie';
+
 import "./styles.css";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -15,7 +17,7 @@ export default function Login() {
   let [password, setPassword] = useState();
   let [error, setError] = useState(false);
   let [errorMessage, setErrorMessage] = useState();
-
+  const [cookies, setCookie] = useCookies();
 
   const navigate = useNavigate();
   function handleClose() {
@@ -28,6 +30,7 @@ export default function Login() {
       .then((response) => {
         if (response.status == 200) {
           console.log("login successful!!!");
+          setCookie('auth_token', response.data.token, { path: '/' });
           navigate("/profile");
         } else {
           setError(true);

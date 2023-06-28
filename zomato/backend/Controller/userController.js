@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const userModel = require("../Model/userModel");
 const jwt = require("jsonwebtoken");
 const { handleException } = require("../util/exceptionHandler");
+const restaurantModel = require("../Model/restaurantModel");
 require("dotenv").config();
 
 async function login(req, res) {
@@ -107,8 +108,29 @@ async function getUserDetails(req, res) {
       user: req.user,
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return handleException(e, "GET_USER_DETAILS", res);
+  }
+}
+
+async function fetchRestaurantsNearUser(req, res) {
+  try {
+    // 5 KM RANGE fectch all restaurants
+    // fetch all the resturants whose geocurrentAddress is in 5 km range of user address
+    const restaurants = await restaurantModel.find({
+      geoCurrentAddress: {
+        $near: {
+          $geometry: req.user.geoCurrentAddress,
+          $maxDistance: 5000,
+        },
+      },
+    });
+    return res.status(200).send({
+      message: "restaurants fetched successfully!!!",
+      restaurants: restaurants,
+    });
+  } catch (e) {
+    return handleException(e, "FETCH_RESTAURANTS_NEAR_USER", res);
   }
 }
 
@@ -116,5 +138,6 @@ module.exports = {
   login,
   signup,
   uploadProfilePicture,
-  getUserDetails
+  getUserDetails,
+  fetchRestaurantsNearUser
 };

@@ -151,3 +151,31 @@ routes
 /api/restaurant -> controller run
 
 frontend -> /login -> page load 
+
+
+
+
+db you stored the data
+
+info: {tfft} 
+
+id: 12, 29, 
+create index;
+
+
+[{"name":"shubham", "age": 23}, , {"name":"Agam", "age": 21}, {"name":"vaibhav", "age": 21}, {"name":"person", "age": 60}]
+// get element by name
+
+map "shubham" => {"name":"shubham", "age": 23},
+   "agam" => {"name":"Agam", "age": 21}
+   "person"
+//shubham o(n)
+// o(1)
+
+
+advantage:
+fast read
+
+disadvantage
+
+write queries: slow 

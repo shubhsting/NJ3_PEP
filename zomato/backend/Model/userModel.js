@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
-
-mongoose
-  .connect(process.env.CONNECTION_URL)
-  .then(() => console.log("Connected!"));
-
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -22,14 +17,14 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   password: {
-    type: String
+    type: String,
   },
   currentAddress: {
     type: String,
     required: true,
   },
   profile_image: {
-    type: String
+    type: String,
   },
   geoCurrentAddress: {
     type: {
@@ -45,5 +40,37 @@ const userSchema = new mongoose.Schema({
 });
 
 const userModel = mongoose.model("userCollection_Zomato", userSchema);
+
+// mongoose.connect(process.env.CONNECTION_URL).then(() => {
+//   console.log("connected to user model");
+//   userModel.collection
+//     .createIndex({ geoCurrentAddress: "2dsphere" })
+//     .then(() => {
+//       console.log("user index created successfully");
+//     })
+//     .catch((e) => {
+//       console.log("error occurred while creating index!!");
+//     });
+// });
+
+connectToDatabase();
+
+async function connectToDatabase() {
+  try {
+    const databaseConnect = await mongoose.connect(process.env.CONNECTION_URL);
+    console.log("user database connected!!!")
+  } catch (e) {
+    console.log("exception occurred while connecting to user database");
+  }
+
+  try {
+    const indexcreate = await userModel.collection.createIndex({
+      geoCurrentAddress: "2dsphere",
+    });
+    console.log("index created!!!", indexcreate)
+  } catch (e) {
+    console.log("exception occurred while creating index in user model");
+  }
+}
 
 module.exports = userModel;

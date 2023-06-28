@@ -1,7 +1,8 @@
 const express = require("express");
 const multer = require("multer");
-const { signup, login, uploadProfilePicture, getUserDetails } = require("../Controller/userController");
+const { signup, login, uploadProfilePicture, getUserDetails, fetchRestaurantsNearUser } = require("../Controller/userController");
 const userAuth = require("../Middleware/userAuth");
+const { fetchUserReviews } = require("../Controller/reviewsController");
 
 
 const userRouter = express.Router();
@@ -29,4 +30,7 @@ userRouter.post("/login", login);
 userRouter.post("/upload-profile-picture", userAuth, upload.single('image'), uploadProfilePicture)
 
 userRouter.get("/get", userAuth, getUserDetails)
+
+userRouter.get("/reviews", userAuth, fetchUserReviews)
+userRouter.get("/nearby-restaurants", userAuth, fetchRestaurantsNearUser)
 module.exports = userRouter;

@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-mongoose
-  .connect(process.env.CONNECTION_URL)
-  .then(() => console.log("Connected!"));
-
 const restaurantSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -15,14 +11,16 @@ const restaurantSchema = new mongoose.Schema({
   slug: {
     type: String,
   },
-  geoCompleteAddress: {
+  geoCurrentAddress: {
     type: {
       type: String, // Don't do `{ location: { type: String } }`
       enum: ["Point"], // 'location.type' must be 'Point'
+      required: true,
     },
     coordinates: {
       type: [Number],
-    }
+      required: true,
+    },
   },
   contact_no: {
     type: Number,
@@ -79,5 +77,39 @@ const restaurantModel = mongoose.model(
   "restaurantCollection_Zomato",
   restaurantSchema
 );
+
+// mongoose.connect(process.env.CONNECTION_URL).then(() => {
+//   console.log("connected to restaurant model");
+//   restaurantModel.collection
+//     .createIndex({ geoCompleteAddress: "2dsphere" })
+//     .then(() => {
+//       console.log("restaurant index created successfully");
+//     })
+//     .catch((e) => {
+//       console.log(e)
+//       console.log("error occurred while creating index!!");
+//     });
+// });
+
+
+connectToDatabase();
+
+async function connectToDatabase() {
+  try {
+    const databaseConnect = await mongoose.connect(process.env.CONNECTION_URL);
+    console.log("restaurant db connected!!!")
+  } catch (e) {
+    console.log("exception occurred while connecting to restaurant database");
+  }
+
+  try {
+    const indexcreate = await restaurantModel.collection.createIndex({
+      geoCurrentAddress: "2dsphere",
+    });
+    console.log("restaurant index created!!!", indexcreate)
+  } catch (e) {
+    console.log("exception occurred while creating index in restaurant model");
+  }
+}
 
 module.exports = restaurantModel;

@@ -1,4 +1,5 @@
 const restaurantModel = require("../Model/restaurantModel");
+const { handleException } = require("../util/exceptionHandler");
 
 async function restaurantValidator(req, res, next) {
   try {

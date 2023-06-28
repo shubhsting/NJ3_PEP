@@ -6,6 +6,8 @@ const {
   uploadRestaurantPhotos,
 } = require("../Controller/restaurantController");
 const userAuth = require("../Middleware/userAuth");
+const { fetchRestaurantReviews } = require("../Controller/reviewsController");
+const { restaurantValidator } = require("../Middleware/restaurantValidator");
 
 const storageConfiguration = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -39,5 +41,5 @@ restaurantRouter.post(
   upload.array("photos", 10),
   uploadRestaurantPhotos
 );
-
+restaurantRouter.get("/:restaurantSlug/reviews", restaurantValidator, fetchRestaurantReviews);
 module.exports = restaurantRouter;

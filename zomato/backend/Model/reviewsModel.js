@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
+const connectToDB = require("./config");
 require("dotenv").config();
 
-mongoose
-  .connect(process.env.CONNECTION_URL)
-  .then(() => console.log("Connected!"));
+connectToDB();
 
 const reviewsSchema = new mongoose.Schema({
   restaurant_id: {

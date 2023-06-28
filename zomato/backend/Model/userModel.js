@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const connectToDB = require("./config");
 require("dotenv").config();
 const userSchema = new mongoose.Schema({
   email: {
@@ -53,16 +54,11 @@ const userModel = mongoose.model("userCollection_Zomato", userSchema);
 //     });
 // });
 
-connectToDatabase();
+connectToDatabaseAndCreateIndex();
 
-async function connectToDatabase() {
-  try {
-    const databaseConnect = await mongoose.connect(process.env.CONNECTION_URL);
-    console.log("user database connected!!!")
-  } catch (e) {
-    console.log("exception occurred while connecting to user database");
-  }
-
+async function connectToDatabaseAndCreateIndex() {
+  await connectToDB();
+  
   try {
     const indexcreate = await userModel.collection.createIndex({
       geoCurrentAddress: "2dsphere",

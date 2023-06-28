@@ -113,12 +113,13 @@ async function getUserDetails(req, res) {
   }
 }
 
+// https://www.mongodb.com/docs/manual/geospatial-queries/
 async function fetchRestaurantsNearUser(req, res) {
   try {
     // 5 KM RANGE fectch all restaurants
     // fetch all the resturants whose geocurrentAddress is in 5 km range of user address
     const restaurants = await restaurantModel.find({
-      geoCurrentAddress: {
+      geoCompleteAddress: {
         $near: {
           $geometry: req.user.geoCurrentAddress,
           $maxDistance: 5000,
@@ -139,5 +140,5 @@ module.exports = {
   signup,
   uploadProfilePicture,
   getUserDetails,
-  fetchRestaurantsNearUser
+  fetchRestaurantsNearUser,
 };

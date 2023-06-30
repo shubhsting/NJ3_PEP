@@ -3,6 +3,8 @@ import { Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import Autocomplete from "@mui/material/Autocomplete";
+
 import axios from "axios";
 import "./styles.css";
 
@@ -15,15 +17,26 @@ export default function SignUp() {
   let [phone, setPhone] = useState();
   let [firstName, setFirstName] = useState();
   let [lastName, setLastName] = useState();
-  let [address, setAddress] = useState();
   let [password, setPassword] = useState();
   let [error, setError] = useState(false);
   let [errorMessage, setErrorMessage] = useState();
+  let [listOfLocations, setListOfLocations] = useState([]);
+  let [selectedLocationValue, setSelectedLocationValue] = useState();
 
   function handleClose() {
     setError(false);
   }
   const navigate = useNavigate();
+  async function fetchLocations(location) {
+    axios
+      .get(`http://localhost:5000/api/common/location?location=${location}`)
+      .then((response) => {
+        setListOfLocations(response.data.data);
+      })
+      .catch(() => {
+        setListOfLocations([]);
+      });
+  }
   async function signUp() {
     const reqBody = {
       email: email,
@@ -31,10 +44,10 @@ export default function SignUp() {
       first_name: firstName,
       last_name: lastName,
       phone: phone,
-      currentAddress: address,
+      currentAddress: selectedLocationValue.display_name,
       geoCurrentAddress: {
         type: "Point",
-        coordinates: [28.6105073, 77.1145653],
+        coordinates: [selectedLocationValue.lat, selectedLocationValue.lon],
       },
     };
     axios
@@ -48,73 +61,98 @@ export default function SignUp() {
           setErrorMessage(response.data.message);
         }
       })
-      .catch((e)=>{
+      .catch((e) => {
         setError(true);
         setErrorMessage(e.response.data.message);
-      })
+      });
   }
 
   return (
-      <div className="signup-container">
-        <h2>SIGN UP</h2>
+    <div className="signup-container">
+      <h2>SIGN UP</h2>
+      <TextField
+        id="filled-basic"
+        label="Email"
+        variant="filled"
+        className="input-field"
+        onChange={(event) => {
+          setEmail(event.target.value);
+        }}
+      />
+      <TextField
+        id="filled-basic"
+        label="Phone"
+        variant="filled"
+        className="input-field"
+        onChange={(event) => {
+          setPhone(event.target.value);
+        }}
+      />
+      <TextField
+        id="filled-basic"
+        label="First Name"
+        variant="filled"
+        className="input-field"
+        onChange={(event) => {
+          setFirstName(event.target.value);
+        }}
+      />
+      <TextField
+        id="filled-basic"
+        label="Last Name"
+        variant="filled"
+        className="input-field"
+        onChange={(event) => {
+          setLastName(event.target.value);
+        }}
+      />
+      <TextField
+        id="filled-password-input"
+        label="Password"
+        type="password"
+        className="input-field"
+        variant="filled"
+        onChange={(event) => {
+          setPassword(event.target.value);
+        }}
+      />
+
+      <Autocomplete
+        options={listOfLocations}
+        getOptionLabel={(option) => option.display_name}
+        id="disable-close-on-select"
+        clearOnEscape
+        className="input-field"
+        onInput={(event) => {
+          fetchLocations(event.target.value);
+        }}
+        onChange={(event, value) => {
+          setSelectedLocationValue(value);
+        }}
+        renderInput={(params) => (
+          <TextField {...params} label="Address" variant="standard" />
+        )}
+      />
+
+      <div className="input-field coordinates-holder">
         <TextField
           id="filled-basic"
-          label="Email"
+          label="Latitude"
+          value={selectedLocationValue ? selectedLocationValue?.lat : ""}
           variant="filled"
-          className="input-field"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
+          disabled
         />
         <TextField
           id="filled-basic"
-          label="Phone"
+          label="Longitude"
           variant="filled"
-          className="input-field"
-          onChange={(event) => {
-            setPhone(event.target.value);
-          }}
+          disabled
+          value={selectedLocationValue ? selectedLocationValue?.lon : ""}
         />
-        <TextField
-          id="filled-basic"
-          label="First Name"
-          variant="filled"
-          className="input-field"
-          onChange={(event) => {
-            setFirstName(event.target.value);
-          }}
-        />
-        <TextField
-          id="filled-basic"
-          label="Last Name"
-          variant="filled"
-          className="input-field"
-          onChange={(event) => {
-            setLastName(event.target.value);
-          }}
-        />
-        <TextField
-          id="filled-basic"
-          label="Address"
-          variant="filled"
-          className="input-field"
-          onChange={(event) => {
-            setAddress(event.target.value);
-          }}
-        />
-        <TextField
-          id="filled-password-input"
-          label="Password"
-          type="password"
-          className="input-field"
-          variant="filled"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        />
-        <Button variant="outlined" onClick={signUp}>
-          Sign up
-        </Button>
+      </div>
+      <Button variant="outlined" onClick={signUp}>
+        Sign up
+      </Button>
       {error && (
         <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
           <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>

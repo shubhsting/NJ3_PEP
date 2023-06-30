@@ -7,12 +7,37 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
-  let [email, setEmail] = useState();
-  let [phone, setPhone] = useState();
-  let [firstName, setFirstName] = useState();
-  let [lastName, setLastName] = useState();
+  let [email, setEmail] = useState("");
+  let [phone, setPhone] = useState("");
+
+  let [address, setAddress] = useState("");
+  let [firstName, setFirstName] = useState("");
+  let [profileImage, setProfileImage] = useState();
+  let [lastName, setLastName] = useState("");
   let [cookies, setCookies, removeCookie] = useCookies();
+  let [profilePicture, setProfilePicture] = useState();
+
   const navigate = useNavigate();
+
+  async function uploadProfileImage() {
+    if (!profilePicture) {
+      console.log("no profile picture found!!!!");
+      return;
+    }
+    const form = new FormData();
+    form.append("image", profilePicture);
+
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/user/upload-profile-picture",
+      data: form,
+      headers: {
+        auth_token: cookies["auth_token"],
+      },
+    }).then((response) => {
+      console.log(response.data);
+    });
+  }
   //localhost:5000/api/user/get
   //{auth_token: null}
   useEffect(() => {
@@ -27,14 +52,18 @@ export default function Profile() {
         headers: { auth_token: cookies["auth_token"] },
       })
       .then((response) => {
+        console.log(response.data);
         setEmail(response.data.user.email);
         setPhone(response.data.user.phone);
         setFirstName(response.data.user.first_name);
         setLastName(response.data.user.last_name);
+        setAddress(response.data.user.currentAddress);
+        setProfileImage(response.data.user.profile_image);
+
       })
       .catch((e) => {
         console.log("exception", e);
-        navigate("/login")
+        navigate("/login");
       });
   }, []);
 
@@ -45,41 +74,67 @@ export default function Profile() {
 
   return (
     <div className="profile-container">
-      <Avatar
-        alt="Remy Sharp"
-        src="http://localhost:5000/images/users/user-1687753951262.jpg"
-        sx={{ width: 56, height: 56 }}
-      />
+      <div>
+        <Avatar
+          alt="Remy Sharp"
+          src={
+            profileImage ? `http://localhost:5000/${profileImage}` : undefined
+          }
+          sx={{ width: 56, height: 56 }}
+        />
+        <input
+          type="file"
+          onChange={(event) => {
+            setProfilePicture(event.target.files[0]);
+          }}
+        />
+      </div>
+
       <TextField
         id="filled-basic"
-        label={email}
+        label={"Email"}
+        value={email}
         variant="filled"
         className="input-field"
         disabled
       />
       <TextField
         id="filled-basic"
-        label={firstName}
+        label={"First Name"}
+        value={firstName}
         variant="filled"
         disabled
         className="input-field"
       />
       <TextField
         id="filled-basic"
-        label={lastName}
+        label={"Last Name"}
+        value={lastName}
         variant="filled"
         disabled
         className="input-field"
       />
       <TextField
         id="filled-basic"
-        label={phone}
+        label={"Phone Number"}
+        value={phone}
+        variant="filled"
+        disabled
+        className="input-field"
+      />
+      <TextField
+        id="filled-basic"
+        label={"Address"}
+        value={address}
         variant="filled"
         disabled
         className="input-field"
       />
       <Button variant="outlined" onClick={logout}>
         Logout
+      </Button>
+      <Button variant="outlined" onClick={uploadProfileImage}>
+        Update
       </Button>
     </div>
   );

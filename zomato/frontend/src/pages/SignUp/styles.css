@@ -10,3 +10,8 @@
     margin-bottom: 2rem !important;
     width: 30rem !important;
 }
+
+.coordinates-holder {
+    display: flex;
+    justify-content: space-between;
+}

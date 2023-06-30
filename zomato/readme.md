@@ -168,7 +168,7 @@ create index;
 
 map "shubham" => {"name":"shubham", "age": 23},
    "agam" => {"name":"Agam", "age": 21}
-   "person"
+   "person" => 
 //shubham o(n)
 // o(1)
 
@@ -179,3 +179,13 @@ fast read
 disadvantage
 
 write queries: slow 
+
+
+
+
+
+indexing -> 
+
+read queries -> fast
+
+write -> slow

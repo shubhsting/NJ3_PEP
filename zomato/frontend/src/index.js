@@ -6,6 +6,8 @@ import ErrorPage from "./pages/ErrorPage";
 import Profile from "./pages/Profile/index";
 import SignUp from "./pages/SignUp/index";
 import { CookiesProvider } from "react-cookie";
+import NearByRestaurants from "./pages/NearbyRestaurants";
+import CreateRestaurant from "./pages/CreateRestaurant";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -17,6 +19,8 @@ root.render(
         <Route path="" element={<ErrorPage />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/restaurants" element={<NearByRestaurants />}></Route>
+        <Route path="/create-restaurant" element={<CreateRestaurant />}></Route>
       </Routes>
     </BrowserRouter>
   </CookiesProvider>

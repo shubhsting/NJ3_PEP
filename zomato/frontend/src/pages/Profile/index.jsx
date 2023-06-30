@@ -1,7 +1,7 @@
 import Avatar from "@mui/material/Avatar";
 import { Button, TextField } from "@mui/material";
 import "./styles.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +18,7 @@ export default function Profile() {
   let [profilePicture, setProfilePicture] = useState();
 
   const navigate = useNavigate();
-
+  const clickRef = useRef(null);
   async function uploadProfileImage() {
     if (!profilePicture) {
       console.log("no profile picture found!!!!");
@@ -75,19 +75,25 @@ export default function Profile() {
   return (
     <div className="profile-container">
       <div>
+
+      <input
+          type="file"
+          className="input-file"
+          ref={clickRef}
+          onChange={(event) => {
+            setProfilePicture(event.target.files[0]);
+          }}
+        />
         <Avatar
           alt="Remy Sharp"
           src={
             profileImage ? `http://localhost:5000/${profileImage}` : undefined
           }
+          className="avatar-pp"
+          onClick={()=>{clickRef.current.click()}}
           sx={{ width: 56, height: 56 }}
         />
-        <input
-          type="file"
-          onChange={(event) => {
-            setProfilePicture(event.target.files[0]);
-          }}
-        />
+
       </div>
 
       <TextField

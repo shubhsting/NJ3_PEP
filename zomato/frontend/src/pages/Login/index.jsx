@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
-import { useCookies } from 'react-cookie';
-
+import { useCookies } from "react-cookie";
 import "./styles.css";
+import ResponsiveAppBar from "../../components/Header";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -30,7 +30,7 @@ export default function Login() {
       .then((response) => {
         if (response.status == 200) {
           console.log("login successful!!!");
-          setCookie('auth_token', response.data.token, { path: '/' });
+          setCookie("auth_token", response.data.token, { path: "/" });
           navigate("/profile");
         } else {
           setError(true);
@@ -44,7 +44,9 @@ export default function Login() {
   }
 
   return (
+    <><ResponsiveAppBar></ResponsiveAppBar>
     <div className="login-container">
+      
       <h2>LOGIN</h2>
       <TextField
         id="filled-basic"
@@ -77,5 +79,6 @@ export default function Login() {
         </Snackbar>
       )}
     </div>
+    </>
   );
 }

@@ -4,6 +4,7 @@ const { restaurantOwnerValidator } = require("../Middleware/restaurantOwnerValid
 const {
   registerRestaurant,
   uploadRestaurantPhotos,
+  getRestaurant,
 } = require("../Controller/restaurantController");
 const userAuth = require("../Middleware/userAuth");
 const { fetchRestaurantReviews } = require("../Controller/reviewsController");
@@ -41,5 +42,7 @@ restaurantRouter.post(
   upload.array("photos", 10),
   uploadRestaurantPhotos
 );
+restaurantRouter.get("/:restaurantSlug/fetch", restaurantValidator, getRestaurant);
+
 restaurantRouter.get("/:restaurantSlug/reviews", restaurantValidator, fetchRestaurantReviews);
 module.exports = restaurantRouter;

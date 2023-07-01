@@ -189,3 +189,24 @@ indexing ->
 read queries -> fast
 
 write -> slow
+
+
+
+What did we learn:
+
+-> authentication -> login, signup -> bcrypt, jwttoken, 
+-> image handling using multer
+-> create restaurant-> automatically create a slug, list restaurants-> returns us list -> fetch the slug and use it is our frontend url (slug part)
+-> create indexes in databases and benefits of indexing -> read queries fast, write queries
+-> geospatial queries of mongodb to fetch restaurants near user.
+-> serving assets/images in express
+-> basic hooks, components, state
+-> calling apis from frontend using axios
+-> rendering states after api responses
+-> managing cookies: react-cookies 
+-> navigating to a new url -> useNavigate
+-> triggered clicks on input by referencing it via image -> useRef -> used ref of image input to upload images by clicking on profile picture
+-> fetch/read url/route params using useParams hook
+-> useEffect multiple cases (trigger on page load, trigger on variable changes)
+-> react routes
+-> mongodb connection, how  an we wait until connection is ready

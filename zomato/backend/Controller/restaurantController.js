@@ -74,4 +74,11 @@ async function uploadRestaurantPhotos(req, res) {
     return handleException(e, "UPLOAD_RESTAURANT_PHOTOS_CONTROLLER", res);
   }
 }
-module.exports = { registerRestaurant, uploadRestaurantPhotos };
+
+async function getRestaurant(req, res) {
+  return res.status(200).send({
+    data: req.restaurant,
+    "message": "restaurant fetched succcesfully"
+  })
+}
+module.exports = { registerRestaurant, uploadRestaurantPhotos, getRestaurant };

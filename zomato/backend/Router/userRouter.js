@@ -32,5 +32,5 @@ userRouter.post("/upload-profile-picture", userAuth, upload.single('image'), upl
 userRouter.get("/get", userAuth, getUserDetails)
 
 userRouter.get("/reviews", userAuth, fetchUserReviews)
-userRouter.get("/nearby-restaurants", userAuth, fetchRestaurantsNearUser)
+userRouter.post("/nearby-restaurants", userAuth, fetchRestaurantsNearUser)
 module.exports = userRouter;

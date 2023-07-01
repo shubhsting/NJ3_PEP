@@ -118,10 +118,21 @@ async function fetchRestaurantsNearUser(req, res) {
   try {
     // 5 KM RANGE fectch all restaurants
     // fetch all the resturants whose geocurrentAddress is in 5 km range of user address
+    let geoLocation = {};
+    const { latitude, longitude } = req.body;
+    if (latitude && longitude) {
+      geoLocation = {
+        type: "Point",
+        coordinates: [latitude, longitude],
+      };
+    } else {
+      geoLocation = req.user.geoCurrentAddress;
+    }
+
     const restaurants = await restaurantModel.find({
       geoCompleteAddress: {
         $near: {
-          $geometry: req.user.geoCurrentAddress,
+          $geometry: geoLocation,
           $maxDistance: 5000,
         },
       },

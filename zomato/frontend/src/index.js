@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp/index";
 import { CookiesProvider } from "react-cookie";
 import NearByRestaurants from "./pages/NearbyRestaurants";
 import CreateRestaurant from "./pages/CreateRestaurant";
+import RestaurantDetail from "./pages/RestaurantDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -21,6 +22,7 @@ root.render(
         <Route path="/signup" element={<SignUp />}></Route>
         <Route path="/restaurants" element={<NearByRestaurants />}></Route>
         <Route path="/create-restaurant" element={<CreateRestaurant />}></Route>
+        <Route path="/:restaurantSlug/open" element={<RestaurantDetail />}></Route>
       </Routes>
     </BrowserRouter>
   </CookiesProvider>

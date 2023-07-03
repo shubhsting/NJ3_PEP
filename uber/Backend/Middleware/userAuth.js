@@ -6,8 +6,8 @@ async function userAuth(req, res, next) {
     try{
         const {auth_token} = req.headers;
         const decoded = jwt.verify(auth_token, process.env.JWT_SECRET_KEY);
-
-        const user = await userModel.findOne({ email: decoded.data.email });
+        console.log(decoded)
+        const user = await userModel.findOne({ email: decoded.email });
 
         if (!user) {
           return res.status(401).send({
@@ -19,6 +19,7 @@ async function userAuth(req, res, next) {
         next();
 
     } catch(e) {
+        console.log(e)
         return res.status(500).send({
             message: "Exception occured in user middleware",
           });

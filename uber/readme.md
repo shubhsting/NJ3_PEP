@@ -72,3 +72,28 @@ read queries are fast
 
 disadvantage: 
 writing data becomes slow
+
+
+
+
+customer: nikhil
+
+
+driver: shubham
+
+
+login: nikhil -> i want to create a ride::::
+
+create ride api...ride
+
+
+
+shubham login=> /get-rides
+
+
+/change-status -> ACCEPTED_BY_DRIVER_ON_HIS_WAY
+/change-status -> REACHED_LOCATION
+/change-status -> STARTED
+/change-status -> ENDED
+
+

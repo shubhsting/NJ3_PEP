@@ -2,6 +2,7 @@ const express = require("express");
 const userRouter = require("./Router/userRouter");
 const cors =  require("cors");
 const commonRouter = require("./Router/commonRouter");
+const rideRouter = require("./Router/rideRouter");
 const port = 5000
 
 
@@ -11,7 +12,7 @@ app.use(express.json())
 
 app.use("/api/user", userRouter);
 app.use("/api/common", commonRouter);
-
+app.use("/api/ride", rideRouter)
 
 
 

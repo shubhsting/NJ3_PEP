@@ -34,6 +34,9 @@ const rideSchema = new mongoose.Schema({
       "ENDED",
     ],
   },
+  creationTime: {
+    type: Date
+  },
   startTime: {
     type: Date,
   },

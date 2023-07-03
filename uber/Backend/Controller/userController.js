@@ -12,7 +12,7 @@ async function login(req, res) {
         message: "user doesn't exist!",
       });
     }
-    const doesPasswordsMatch = bcrypt.compare(password, user.password);
+    const doesPasswordsMatch = await bcrypt.compare(password, user.password);
     if (!doesPasswordsMatch) {
       return res.status(400).send({
         message: "invalid password!!",
@@ -46,7 +46,7 @@ async function signup(req, res) {
       });
     }
 
-    const hashedPassword = bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     await userModel.create({
       email,
       password: hashedPassword,
@@ -59,8 +59,9 @@ async function signup(req, res) {
       message: "user created successfully",
     });
   } catch (e) {
+    console.log(e)
     return res.status(500).send({
-      message: "Exception occured while signing out!",
+      message: "Exception occured while signing up!",
     });
   }
 }

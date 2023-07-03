@@ -67,6 +67,9 @@ const rideSchema = new mongoose.Schema({
   },
   createdBy:{
     type: String
+  },
+  distanceInKm: {
+    type: Number
   }
 });
 

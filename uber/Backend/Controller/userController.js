@@ -30,7 +30,7 @@ async function login(req, res) {
       data: token,
     });
   } catch (e) {
-    return res.status(200).send({
+    return res.status(500).send({
       message: "Exception occured while logging in!",
     });
   }
@@ -59,7 +59,7 @@ async function signup(req, res) {
       message: "user created successfully",
     });
   } catch (e) {
-    return res.status(200).send({
+    return res.status(500).send({
       message: "Exception occured while signing out!",
     });
   }
@@ -88,7 +88,7 @@ async function getUserDetails(req, res) {
       driverRating: driverRatingSum / ridesTaken.length,
     });
   } catch (e) {
-    return res.status(200).send({
+    return res.status(500).send({
       message: "Exception occured while getting user details!",
     });
   }

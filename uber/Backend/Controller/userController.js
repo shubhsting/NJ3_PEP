@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const rideModel = require("../Model/rideModel");
 require("dotenv").config();
+
 async function login(req, res) {
   try {
     const { email, password } = req.body;
@@ -59,7 +60,7 @@ async function signup(req, res) {
       message: "user created successfully",
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return res.status(500).send({
       message: "Exception occured while signing up!",
     });
@@ -94,4 +95,48 @@ async function getUserDetails(req, res) {
     });
   }
 }
-module.exports = { login, signup, getUserDetails };
+
+// create ride user
+// get rides near me as driver
+// accept ride driver
+
+// mongo geospatial queries
+
+// ride table -> start location
+// user table -> current location
+
+// i want to fetch all rides whose starting location is in 5 km range from driver
+async function getAllNearestRides() {
+  try {
+    const { latitude, longitude } = req.body;
+    let currentLocation = {};
+    if (latitude && longitude) {
+      currentLocation = {
+        type: "Point",
+        coordinates: [latitude, longitude],
+      };
+    } else {
+      currentLocation = req.user.currentLocation;
+    }
+
+    const rides = await rideModel.find({
+      startLocation: {
+        $near: {
+          $geometry: currentLocation,
+          $maxDistance: 5000,
+        },
+      },
+    });
+
+    return res.status(200).send({
+      message: "rides fetched successfully!!!",
+      data: rides,
+    });
+  } catch (e) {
+    return res.status(500).send({
+      message: "Exception occured while getting nearest rides!",
+    });
+  }
+}
+
+module.exports = { login, signup, getUserDetails, getAllNearestRides };

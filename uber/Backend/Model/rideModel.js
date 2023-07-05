@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 const createConnection = require("./config");
 
 const rideSchema = new mongoose.Schema({
+  start: {
+    type: String
+  },
+  end: {
+    type: String
+  },
   startLocation: {
     type: {
       type: String,

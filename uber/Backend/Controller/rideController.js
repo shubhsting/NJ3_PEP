@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 
 async function createRide(req, res) {
   try {
-    const { startLocation, endLocation } = req.body;
+    const { startLocation, endLocation, start, end } = req.body;
 
     const user = req.user;
     const totalDistane = distance(
@@ -16,6 +16,8 @@ async function createRide(req, res) {
     const rideObj = {
       startLocation,
       endLocation,
+      start,
+      end,
       createdBy: user._id,
       status: "CREATED",
       distanceInKm: totalDistane,
@@ -84,6 +86,26 @@ async function changeStatus(req, res) {
   }
 }
 
+async function getStatus(req, res) {
+  try {
+    const { rideId } = req.body;
+    const rideObjectId = new mongoose.Types.ObjectId(rideId);
+    const ride = await rideModel.findById(rideObjectId);
+    if (ride.createdBy != req.user._id && ride.driverId != req.user._id) {
+      return res.status(400).send({
+        message: "only driver or customer can see the ride details!!",
+      });
+    }
+    return res.status(200).send({
+      message: "ride id fetched successfully",
+      data: ride,
+    });
+  } catch (e) {
+    return res.status(500).send({
+      message: "exception occurred while getting ride details",
+    });
+  }
+}
 async function addRatingToRide() {
   try {
     const { driverRating, customerRating, rideId } = req.body;
@@ -118,4 +140,4 @@ async function addRatingToRide() {
     });
   }
 }
-module.exports = { createRide, changeStatus, addRatingToRide };
+module.exports = { createRide, changeStatus, addRatingToRide, getStatus };

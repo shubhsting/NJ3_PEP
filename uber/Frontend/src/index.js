@@ -8,6 +8,7 @@ import Signup from "./pages/Signup/index";
 import Login from "./pages/Login/index";
 import CreateRidePage from "./pages/CreateRidePage/index";
 import FetchRideDetailsPage from "./pages/FetchRideDetailsPage";
+import ListRides from "./pages/ListRides/index";
 
 
 
@@ -20,6 +21,7 @@ root.render(
         <Route path="" element={<CreateRidePage />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/rides-near-me" element={<ListRides />}></Route>
         <Route path="/:rideId/overview" element={<FetchRideDetailsPage />}></Route>
       </Routes>
     </BrowserRouter>

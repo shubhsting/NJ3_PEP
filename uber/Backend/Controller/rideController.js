@@ -1,4 +1,5 @@
 const rideModel = require("../Model/rideModel");
+const userModel = require("../Model/userModel");
 const { distance } = require("../util/rideUtil");
 const mongoose = require("mongoose");
 
@@ -90,17 +91,27 @@ async function getStatus(req, res) {
   try {
     const { rideId } = req.body;
     const rideObjectId = new mongoose.Types.ObjectId(rideId);
-    const ride = await rideModel.findById(rideObjectId);
+    let ride = await rideModel.findById(rideObjectId);
     if (ride.createdBy != req.user._id && ride.driverId != req.user._id) {
       return res.status(400).send({
         message: "only driver or customer can see the ride details!!",
       });
     }
+
+    // ride driver
+    let driverdetails = null
+    if(ride.driverId) {
+      driverdetails = await userModel.findById(ride.driverId);
+    }
+
     return res.status(200).send({
       message: "ride id fetched successfully",
       data: ride,
+      driverDetails: driverdetails,
+      isDriver: ride.driverId == req.user._id
     });
   } catch (e) {
+    console.log(e)
     return res.status(500).send({
       message: "exception occurred while getting ride details",
     });

@@ -106,7 +106,7 @@ async function getUserDetails(req, res) {
 // user table -> current location
 
 // i want to fetch all rides whose starting location is in 5 km range from driver
-async function getAllNearestRides() {
+async function getAllNearestRides(req, res) {
   try {
     const { latitude, longitude } = req.body;
     let currentLocation = {};
@@ -126,6 +126,8 @@ async function getAllNearestRides() {
           $maxDistance: 5000,
         },
       },
+      status: "CREATED",
+      createdBy: { $ne: req.user._id },
     });
 
     return res.status(200).send({

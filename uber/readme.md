@@ -97,3 +97,9 @@ shubham login=> /get-rides
 /change-status -> ENDED
 
 
+
+
+fetchridedetails page -> user open
+
+
+driver ride details page -> he can edit the info-> status change 

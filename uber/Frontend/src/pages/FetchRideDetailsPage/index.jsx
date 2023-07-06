@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Button, TextField, Autocomplete } from "@mui/material";
+import { Button, TextField, Autocomplete, Typography } from "@mui/material";
 import { useCookies } from "react-cookie";
+import Rating from "@mui/material/Rating";
 import "./styles.css";
 
 export default function FetchRideDetailsPage(req, res) {
   let [isDriver, setIsDriver] = useState();
   let [rideDetails, setRideDetails] = useState();
   let [driverDetails, setdriverDetails] = useState();
+  let [rating, setRating] = useState();
 
   function getMessageFromStatus(status) {
     console.log("this is status", status);
@@ -50,6 +52,22 @@ export default function FetchRideDetailsPage(req, res) {
       });
   }, []);
 
+  async function submitRating() {
+    console.log("entered in submit rating");
+    axios({
+      method: "post",
+      url: "http://localhost:5000/api/ride/rate",
+      headers: {
+        auth_token: cookies["auth_token"],
+      },
+      data: {
+        rideId: params.rideId,
+        rating,
+      },
+    }).then((response) => {
+      console.log(response);
+    });
+  }
   async function driverReachedPickup() {
     axios({
       method: "post",
@@ -65,7 +83,6 @@ export default function FetchRideDetailsPage(req, res) {
       console.log("driver reached");
     });
   }
-
 
   async function rideStarted() {
     axios({
@@ -85,18 +102,18 @@ export default function FetchRideDetailsPage(req, res) {
 
   async function completeRide() {
     axios({
-        method: "post",
-        url: "http://localhost:5000/api/ride/change-status",
-        headers: {
-          auth_token: cookies["auth_token"],
-        },
-        data: {
-          rideId: params.rideId,
-          status: "ENDED",
-        },
-      }).then((response) => {
-        console.log("ride completed");
-      });
+      method: "post",
+      url: "http://localhost:5000/api/ride/change-status",
+      headers: {
+        auth_token: cookies["auth_token"],
+      },
+      data: {
+        rideId: params.rideId,
+        status: "ENDED",
+      },
+    }).then((response) => {
+      console.log("ride completed");
+    });
   }
   return (
     <div className="ride-container">
@@ -156,9 +173,68 @@ export default function FetchRideDetailsPage(req, res) {
               className="input-field"
             />
           )}
-          {isDriver && <Button onClick={driverReachedPickup}> Reached Pickup</Button>}
-          {isDriver && <Button onClick={rideStarted}> Start Ride</Button>}
-          {isDriver && <Button onClick={completeRide}> Complete Ride</Button>}
+          {isDriver &&
+            rideDetails.status === "ACCEPTED_BY_DRIVER_ON_HIS_WAY" && (
+              <Button onClick={driverReachedPickup}> Reached Pickup</Button>
+            )}
+          {isDriver && rideDetails.status === "REACHED_LOCATION" && (
+            <Button onClick={rideStarted}> Start Ride</Button>
+          )}
+          {isDriver && rideDetails.status === "STARTED" && (
+            <Button onClick={completeRide}> Complete Ride</Button>
+          )}
+
+          {isDriver && rideDetails.status === "ENDED" && (
+            <div className="rating-holder">
+              {!rideDetails.customerRating ? (
+                <Typography component="legend">Rate Customer</Typography>
+              ) : (
+                <Typography component="legend">
+                  You already have rated customer with{" "}
+                  {rideDetails.customerRating} stars{" "}
+                </Typography>
+              )}
+              <Rating
+                name="simple-controlled"
+                value={
+                  rideDetails.customerRating ? rideDetails.customerRating : rating
+                }
+                disabled={rideDetails.customerRating ? true : false}
+                onChange={(event, newValue) => {
+                  setRating(newValue);
+                }}
+              />
+              {!rideDetails.customerRating && (
+                <Button onClick={submitRating}> Submit Rating</Button>
+              )}
+            </div>
+          )}
+
+          {!isDriver && rideDetails.status === "ENDED" && (
+            <div className="rating-holder">
+              {!rideDetails.driverRating ? (
+                <Typography component="legend">Rate Driver</Typography>
+              ) : (
+                <Typography component="legend">
+                  You already rated the driver with {rideDetails.driverRating}{" "}
+                  stars
+                </Typography>
+              )}
+              <Rating
+                name="simple-controlled"
+                value={
+                  rideDetails.driverRating ? rideDetails.driverRating : rating
+                }
+                disabled={rideDetails.driverRating ? true : false}
+                onChange={(event, newValue) => {
+                  setRating(newValue);
+                }}
+              />
+              {!rideDetails.driverRating && (
+                <Button onClick={submitRating}> Submit Rating</Button>
+              )}
+            </div>
+          )}
         </div>
       )}
       {!rideDetails && <>Invalid ride id passed</>}

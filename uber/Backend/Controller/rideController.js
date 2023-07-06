@@ -117,22 +117,24 @@ async function getStatus(req, res) {
     });
   }
 }
-async function addRatingToRide() {
+async function addRatingToRide(req, res) {
   try {
-    const { driverRating, customerRating, rideId } = req.body;
+    const { rating, rideId } = req.body;
     const user = req.user;
     const rideObjectId = new mongoose.Types.ObjectId(rideId);
 
     const ride = await rideModel.findById(rideObjectId);
-    if (driverRating && ride.createdBy == user._id) {
+    let updateObj = {};
+    
+    if (ride.createdBy == user._id) {
       updateObj = {
         ...updateObj,
-        driverRating,
+        driverRating: rating,
       };
-    } else if (customerRating && ride.driverId == user._id) {
+    } else if (ride.driverId == user._id) {
       updateObj = {
         ...updateObj,
-        customerRating,
+        customerRating: rating,
       };
     } else {
       return res.status(400).send({
@@ -146,6 +148,7 @@ async function addRatingToRide() {
       message: "ratings added successfully!!!",
     });
   } catch (e) {
+    console.log(e)
     return res.status(500).send({
       message: "exception occurred while adding review",
     });

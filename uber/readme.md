@@ -26,6 +26,13 @@ api
 
 
 
+
+
+
+
+
+
+
 TASK_2
 
 https://api.publicapis.org/entries 
@@ -39,6 +46,20 @@ ui
 create a local component , call this local api
 
 render this data.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

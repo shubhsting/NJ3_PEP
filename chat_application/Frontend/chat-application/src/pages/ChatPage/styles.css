@@ -1,0 +1,21 @@
+.chat-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.chat-box {
+  height: 100vh;
+  width: 30%;
+  background: lightgray;
+  display: flex;
+  align-items: end;
+}
+.footer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    /* align-items: center; */
+    height: 6vh;
+}

@@ -1,25 +1,31 @@
 import React from "react";
 import { Button, TextField } from "@mui/material";
-import "./styles.css"
+import "./styles.css";
 import { useState } from "react";
 import axios from "axios";
-
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   let [email, setEmail] = useState();
   let [password, setPassword] = useState();
 
+  let [cookies, setCookies] = useCookies();
+  const navigate = useNavigate();
 
   async function login() {
     axios({
-        method: "post",
-        url: "http://localhost:5000/login",
-        data: {
-            email, password
-        }
-    }).then((response)=>{
-        console.log(response)
-    })
+      method: "post",
+      url: "http://localhost:5000/login",
+      data: {
+        email,
+        password,
+      },
+    }).then((response) => {
+      console.log(response);
+      setCookies("auth_token", response.data.data);
+      navigate("/chat");
+    });
   }
   return (
     <div className="login-container">
@@ -44,7 +50,9 @@ export default function Login() {
         }}
       />
 
-      <Button variant="outlined" onClick={login}>Log in</Button>
+      <Button variant="outlined" onClick={login}>
+        Log in
+      </Button>
     </div>
   );
 }

@@ -2,30 +2,29 @@ const express = require("express");
 const { loginUser, signupUser } = require("./controller/userController");
 const cors = require("cors")
 const app = express()
-
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 app.use(cors())
 app.use(express.json())
 
 const server = require('http').createServer(app);
-// const io = require("socket.io")(server,{
-//     cors: {
-//         origin: '*'
-//     }
-// });
+const io = require("socket.io")(server,{
+    cors: {
+        origin: '*'
+    }
+});
 
-// io.on("connection", (socket)=>{
-//     console.log(`hello ${socket.id}! you have successfully connected to backend via socket`)
-//     socket.emit("message_received", {
-//         mesaage: "hello you are connected!!!"
-//     })
-
-//     socket.on("send_message_to_server", (data)=>{
-//         console.log(data)
-//     }) 
-// })
+io.on("connection", (socket)=>{
+    const auth_token = socket.handshake.query.token;
+    const decoded = jwt.verify(auth_token, process.env.JWT_SECRET_KEY);  
+    socket.join(123456789)  
+    socket.to(123456789).emit("new_user_joined", {
+        message: `${decoded.firstName} ${decoded.lastName} has joined`
+    })
+})
 
 
-
+// emit send the event to all the participants except the person who triggered backend.
 app.post("/login", loginUser)
 app.post("/signup", signupUser)
 

@@ -9,13 +9,35 @@
   height: 100vh;
   width: 30%;
   background: lightgray;
+  flex-direction: column;
   display: flex;
-  align-items: end;
+  align-items: center;
 }
 .footer {
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    /* align-items: center; */
-    height: 6vh;
+  width: 29%;
+  display: flex;
+  justify-content: space-around;
+  height: 6vh;
+  margin-top: 92vh;
+  position: fixed;
+}
+.new-user-joined-message {
+  height: 1.25rem;
+  width: 50%;
+  background: green;
+}
+.i-messaged {
+  height: fit-content;
+  width: 50%;
+  background: beige;
+  margin-left: 16rem;
+  margin-top: 1rem;
+}
+
+.some-user-messaged {
+  height: fit-content;
+  width: 50%;
+  background: beige;
+  margin-left: -16rem;
+  margin-top: 1rem;
 }

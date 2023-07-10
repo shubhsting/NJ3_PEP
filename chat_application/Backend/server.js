@@ -21,6 +21,14 @@ io.on("connection", (socket)=>{
     socket.to(123456789).emit("new_user_joined", {
         message: `${decoded.firstName} ${decoded.lastName} has joined`
     })
+
+    socket.on("user_message", (response)=> {
+        console.log(`message received on server ${response.message}`)
+        socket.to(123456789).emit("new_message_sent_by_someone", {
+            message: response.message,
+            owner: jwt.verify(response.auth_token, process.env.JWT_SECRET_KEY)
+        })
+    })
 })
 
 

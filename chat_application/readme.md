@@ -75,3 +75,34 @@ user2 -> create connection
         receive message(detect message sent by user1)
 
 
+
+
+
+ui -> 
+
+
+pankaj    emit(i_messaged, {message, token})
+
+shubham   on("someone_mesaged, )
+
+
+server  receive( i_message, token , message)
+
+        emit("someone_messaged, {pankaj, message})
+
+
+
+
+
+whatsapp
+
+
+ui add contact 
+
+
+new contact add -> api -> backend -> random_id, slug
+
+
+ui contact click -> message-> {token, message, contact_slug}
+
+server -> token person name, message  emit: contact_slug

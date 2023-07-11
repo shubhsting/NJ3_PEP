@@ -29,3 +29,7 @@ module.exports = {
     await queryInterface.dropTable('notes_mysql_demo');
   }
 };
+
+// add a column createdBy
+// real mysql table -> column add....migration
+//local model change

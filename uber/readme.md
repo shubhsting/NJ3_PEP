@@ -124,3 +124,21 @@ fetchridedetails page -> user open
 
 
 driver ride details page -> he can edit the info-> status change 
+
+
+
+render for backend deployment
+frontend netlify
+
+local computer/run server test your application/
+deployment-> we want to run that server somewhere on internet.
+we can publicly access it.
+
+
+websites....
+
+2 different deployments for backend and frontend.
+
+frontend they use deployed backend routes.
+
+github code: automatically deploy that to a url.

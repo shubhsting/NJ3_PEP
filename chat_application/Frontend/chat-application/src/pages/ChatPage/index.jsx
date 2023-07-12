@@ -49,7 +49,7 @@ export default function ChatPage() {
   }, []);
 
   useEffect(() => {
-    const socket = io.connect("http://localhost:5000", {
+    const socket = io.connect("https://chat-app-shubham-test.onrender.com", {
       query: "token=" + cookies["auth_token"],
     });
     setSocket(socket);
@@ -75,7 +75,7 @@ export default function ChatPage() {
         });
       });
 
-      io.disconnect("http://localhost:5000");
+      io.disconnect("https://chat-app-shubham-test.onrender.com");
     };
   }, []);
 

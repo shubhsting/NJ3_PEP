@@ -16,7 +16,7 @@ export default function Signup() {
   async function signup() {
     axios({
       method: "post",
-      url: "http://localhost:5000/signup",
+      url: "https://chat-app-shubham-test.onrender.com/signup",
       data: {
         email,
         password,

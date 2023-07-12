@@ -31,7 +31,7 @@ export default function FetchRideDetailsPage(req, res) {
   useEffect(() => {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/ride/getById",
+      url: "https://uber-backend-test.onrender.com/api/ride/getById",
       headers: {
         auth_token: cookies["auth_token"],
       },
@@ -56,7 +56,7 @@ export default function FetchRideDetailsPage(req, res) {
     console.log("entered in submit rating");
     axios({
       method: "post",
-      url: "http://localhost:5000/api/ride/rate",
+      url: "https://uber-backend-test.onrender.com/api/ride/rate",
       headers: {
         auth_token: cookies["auth_token"],
       },
@@ -71,7 +71,7 @@ export default function FetchRideDetailsPage(req, res) {
   async function driverReachedPickup() {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/ride/change-status",
+      url: "https://uber-backend-test.onrender.com/ride/change-status",
       headers: {
         auth_token: cookies["auth_token"],
       },
@@ -87,7 +87,7 @@ export default function FetchRideDetailsPage(req, res) {
   async function rideStarted() {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/ride/change-status",
+      url: "https://uber-backend-test.onrender.com/api/ride/change-status",
       headers: {
         auth_token: cookies["auth_token"],
       },
@@ -103,7 +103,7 @@ export default function FetchRideDetailsPage(req, res) {
   async function completeRide() {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/ride/change-status",
+      url: "https://uber-backend-test.onrender.com/api/ride/change-status",
       headers: {
         auth_token: cookies["auth_token"],
       },

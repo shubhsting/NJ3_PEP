@@ -30,7 +30,7 @@ export default function CreateRidePage() {
   async function fetchLocations(location, identifier) {
     axios
       .get(
-        `http://localhost:5000/api/common/get-coordinates?location=${location}`
+        `https://uber-backend-test.onrender.com/api/common/get-coordinates?location=${location}`
       )
       .then((response) => {
         if (identifier == "start") {
@@ -54,7 +54,7 @@ export default function CreateRidePage() {
     if (userCurrentLocationCoordinates) {
       axios({
         method: "post",
-        url: "http://localhost:5000/api/common/get-address",
+        url: "https://uber-backend-test.onrender.com/api/common/get-address",
         data: {
           latitude: userCurrentLocationCoordinates.coords.latitude,
           longitude: userCurrentLocationCoordinates.coords.longitude,
@@ -87,7 +87,7 @@ export default function CreateRidePage() {
   async function createRide(startLocation) {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/ride/create",
+      url: "https://uber-backend-test.onrender.com/api/ride/create",
       headers: {
         auth_token: cookies["auth_token"],
       },

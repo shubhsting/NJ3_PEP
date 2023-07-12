@@ -16,7 +16,7 @@ export default function Signup() {
   async function fetchLocations(location) {
     axios
       .get(
-        `http://localhost:5000/api/common/get-coordinates?location=${location}`
+        `https://uber-backend-test.onrender.com/api/common/get-coordinates?location=${location}`
       )
       .then((response) => {
         setoptionsList(response.data.data);
@@ -29,7 +29,7 @@ export default function Signup() {
 
   async function signup() {
     axios
-      .post("http://localhost:5000/api/user/signup", {
+      .post("https://uber-backend-test.onrender.com/api/user/signup", {
         email,
         password,
         firstName,

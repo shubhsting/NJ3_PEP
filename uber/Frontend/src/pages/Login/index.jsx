@@ -10,7 +10,7 @@ export default function Login() {
   let [cookies, setCookies] = useCookies();
   const navigate = useNavigate();
   async function login(){
-    axios.post("http://localhost:5000/api/user/login", {email, password}).then((response)=>{
+    axios.post("https://uber-backend-test.onrender.com/api/user/login", {email, password}).then((response)=>{
         console.log(response)
         setCookies("auth_token", response.data.data)
         navigate("/")

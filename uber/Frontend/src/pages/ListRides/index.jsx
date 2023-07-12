@@ -19,7 +19,7 @@ export default function ListRides(params) {
   async function acceptRide(rideId) {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/ride/change-status",
+      url: "https://uber-backend-test.onrender.com/api/ride/change-status",
       headers: {
         auth_token: cookies["auth_token"],
       },
@@ -35,7 +35,7 @@ export default function ListRides(params) {
   useEffect(() => {
     axios({
       method: "post",
-      url: "http://localhost:5000/api/user/fetch-rides",
+      url: "https://uber-backend-test.onrender.com/api/user/fetch-rides",
       headers: {
         auth_token: cookies["auth_token"],
       },

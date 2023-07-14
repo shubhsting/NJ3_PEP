@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "post_likes_instagram",
+      timestamps: false
     }
   );
   return PostLike;

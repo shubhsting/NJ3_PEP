@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
+      email: {
+        type: DataTypes.STRING,
+      }, 
       firstName: {
         type: DataTypes.STRING,
       },
@@ -30,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "users_instagram",
+      timestamps: false
     }
   );
   return User;

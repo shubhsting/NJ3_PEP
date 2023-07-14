@@ -30,4 +30,12 @@ POST_COMMENTS
 
 
 
+middleWare
+
+
+i valiudate the input -> if input is correct, next
+if input is wrong exception throw
+
+
+
 

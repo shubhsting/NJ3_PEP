@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "follow_requests_instagram",
+      timestamps: false
     }
   );
   return FollowRequest;

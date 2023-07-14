@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "user_posts_instagram",
+      timestamps: false
     }
   );
   return Post;

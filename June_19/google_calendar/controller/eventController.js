@@ -1,4 +1,5 @@
 const eventModel = require("../model/eventModel");
+const mongoose = require("mongoose");
 
 async function createEvent(req, res) {
   try {
@@ -32,8 +33,9 @@ async function updateEvent(req, res) {
   try {
     const { eventId } = req.params;
     const { description, startTime, endTime, location, guests } = req.body;
+    const objectID = new mongoose.Types.ObjectId(eventId);
 
-    const event = await eventModel.findById(eventId);
+    const event = await eventModel.findById(objectID);
 
     if (event.userId != req.user._id) {
       return res.status(401).send({

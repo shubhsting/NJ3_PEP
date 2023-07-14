@@ -5,8 +5,9 @@ async function connectDB() {
   await mongoose.connect(process.env.CONNECTION_URL);
   let connectionValue = mongoose.connection.readyState;
   while (connectionValue != 1) {
+    console.log(connectionValue)
     connectionValue = mongoose.connection.readyState;
-    wait(2000);
+    await wait(2000);
   }
 }
 
@@ -15,6 +16,7 @@ async function wait(ms) {
     setTimeout(resolve, ms);
   });
 }
+
 
 
 module.exports = connectDB;

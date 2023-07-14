@@ -76,3 +76,10 @@ bcrypt
 
 
 
+obj = {"name": shubham, age: 24}   
+
+
+newObj = {...obj, last_name: "singh"}
+
+
+newObj = {"name": shubham, age: 24, last_name: "singh"}

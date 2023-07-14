@@ -2,12 +2,13 @@ const taskModel = require("../model/taskModel");
 
 async function createTask(req, res) {
   try {
-    const { description, startTime } = req.body;
+    const { title, description, startTime } = req.body;
 
     const task = await taskModel.create({
       description,
       startTime,
-      userId: req.user.id,
+      title,
+      userId: req.user._id,
     });
 
     return res.status(200).send({

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
+const connectDB = require('./config');
 require('dotenv').config()
 
-mongoose.connect(process.env.CONNECTION_URL)
-  .then(() => console.log('Connected!'));
+connectDB().then(() => console.log('Connected!'));
 
 const taskSchema = new mongoose.Schema({
   startTime: {
@@ -10,6 +10,9 @@ const taskSchema = new mongoose.Schema({
     required: true
   },
   description: {
+    type: String
+  },
+  title: {
     type: String
   },
   userId: {

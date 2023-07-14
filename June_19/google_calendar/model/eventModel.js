@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
+const connectDB = require('./config');
 require('dotenv').config()
 
-mongoose.connect(process.env.CONNECTION_URL)
-  .then(() => console.log('Connected!'));
+connectDB().then(() => console.log('Connected!'));
 
 const eventSchema = new mongoose.Schema({
   startTime: {
@@ -20,6 +20,9 @@ const eventSchema = new mongoose.Schema({
     type: [String]
   },
   link: {
+    type: String
+  },
+  title: {
     type: String
   },
   location: {

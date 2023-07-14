@@ -49,6 +49,7 @@ async function login(req, res) {
       {
         exp: Math.floor(Date.now() / 1000) + 3 * 60 * 60,
         data: user.email,
+        date: new Date()
       },
       process.env.JWT_SECRET
     );
@@ -124,7 +125,7 @@ async function updateUser(req, res) {
 
 async function deleteUser(req, res) {
   try {
-    await userModel.findByIdAndDelete(req.user.id);
+    await userModel.findByIdAndDelete(req.user._id);
     return res.status(200).send({
       message: "user have been deleted!!!",
     });

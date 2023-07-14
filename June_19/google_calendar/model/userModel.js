@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
+const connectDB = require('./config');
 require('dotenv').config()
 
-mongoose.connect(process.env.CONNECTION_URL)
-  .then(() => console.log('Connected!'));
+connectDB().then(() => {console.log('Connected!')});
 
 const userSchema = new mongoose.Schema({
   phone: {
@@ -31,3 +31,6 @@ const userSchema = new mongoose.Schema({
 const userModel = mongoose.model("userCollection", userSchema);
 
 module.exports = userModel
+
+
+//collection

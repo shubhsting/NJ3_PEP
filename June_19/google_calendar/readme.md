@@ -70,5 +70,9 @@ bcrypt
 -> mongo query operations
 -> express router 
 -> MVC architecture 
--> /update?id=peioi // query param   req.query
+-> /update?id=peioi&name=lksxnns // query param   req.query
 -> /:id/update -> url param  req.params
+/1/update
+
+
+

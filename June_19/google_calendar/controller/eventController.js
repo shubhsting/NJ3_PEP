@@ -2,12 +2,13 @@ const eventModel = require("../model/eventModel");
 
 async function createEvent(req, res) {
   try {
-    const { description, startTime, endTime, location, guests, link } =
+    const { description, startTime, endTime, location, guests, link, title } =
       req.body;
 
     const task = await eventModel.create({
       description,
       startTime,
+      title,
       endTime,
       location,
       guests,

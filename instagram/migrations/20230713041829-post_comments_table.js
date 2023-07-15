@@ -11,10 +11,10 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       postId: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
       },
       commentedBy: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
       },
       content: {
         type: Sequelize.STRING

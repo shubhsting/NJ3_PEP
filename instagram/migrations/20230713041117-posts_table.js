@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.BIGINT,
       },
       postedBy: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
       }
     });
   },

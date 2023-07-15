@@ -11,10 +11,10 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       sentBy: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
       },
       sentTo: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.INTEGER,
       },
       status: {
         type: Sequelize.ENUM,

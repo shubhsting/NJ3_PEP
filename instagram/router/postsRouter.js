@@ -1,24 +1,28 @@
 const express = require("express");
-const { createPost, updatePost, deletePost } = require("../controller/postsController");
+const {
+  createPost,
+  updatePost,
+  deletePost,
+} = require("../controller/postsController");
 const { addLike, undoLike } = require("../controller/postLikesController");
-const { addPostComment, updatePostComment, deletePostComment } = require("../controller/postCommentsController");
+const {
+  addPostComment,
+  updatePostComment,
+  deletePostComment,
+} = require("../controller/postCommentsController");
+const userAuth = require("../middleware/userAuth");
 
+const postsRouter = express.Router();
 
-const postsRouter = express.Router()
+postsRouter.post("/create", userAuth, createPost);
+postsRouter.post("/:postId/update", userAuth, updatePost);
+postsRouter.delete(":/postId", userAuth, deletePost);
 
-postsRouter.post("/create", createPost);
-postsRouter.post("/:postId/update", updatePost)
-postsRouter.delete(":/postId", deletePost);
+postsRouter.put("/:postId/like", userAuth, addLike);
+postsRouter.put("/:postId/undo-like", userAuth, undoLike);
 
-
-postsRouter.put("/:postId/like", addLike)
-postsRouter.put("/:postId/undo-like", undoLike)
-
-
-postsRouter.post("/:postId/comment", addPostComment)
-postsRouter.post("/:postId/update-comment", updatePostComment)
-postsRouter.delete("/:postId/comment", deletePostComment)
-
-
+postsRouter.post("/:postId/comment", userAuth, addPostComment);
+postsRouter.post("/:commentId/update-comment/", userAuth, updatePostComment);
+postsRouter.delete("/:commentId/comment", userAuth, deletePostComment);
 
 module.exports = postsRouter;

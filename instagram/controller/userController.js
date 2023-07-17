@@ -91,29 +91,33 @@ async function getPosts(req, res) {
       include: [
         {
           model: db.PostLike,
-          attributes: ['userId'],
+          attributes: ["userId"],
           required: true,
-          include: [{
-            model: db.User,
-            attributes: ["firstName", "lastName"],
-            required: true
-          }]
+          include: [
+            {
+              model: db.User,
+              attributes: ["firstName", "lastName"],
+              required: true,
+            },
+          ],
         },
         {
           model: db.PostComment,
           attributes: ["content"],
           required: true,
-          include: [{
-            model: db.User,
-            attributes: ["firstName", "lastName"],
-            required: true
-          }]
+          include: [
+            {
+              model: db.User,
+              attributes: ["firstName", "lastName"],
+              required: true,
+            },
+          ],
         },
         {
           model: db.User,
           attributes: ["firstName", "lastName"],
-          required: true
-        }
+          required: true,
+        },
       ],
     });
     return res.status(200).send({
@@ -121,10 +125,40 @@ async function getPosts(req, res) {
       posts,
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return res.status(500).send({
       message: "exception occurred while getting posts",
     });
   }
 }
-module.exports = { login, signup, getPosts };
+
+async function getUserProfile(req, res) {
+  try {
+    const userId = req.user.id;
+
+    const followers = await db.FollowRequest.findAll({
+      where: {
+        sentTo: userId,
+        status: "ACCEPTED",
+      },
+    });
+
+    const following = await db.FollowRequest.findAll({
+      where: {
+        sentBy: userId,
+        status: "ACCEPTED",
+      },
+    });
+
+    return res.status(200).send({
+      user: req.user,
+      followers,
+      following,
+    });
+  } catch (e) {
+    return res.status(500).send({
+      message: "error occurred while getting profile",
+    });
+  }
+}
+module.exports = { login, signup, getPosts, getUserProfile };

@@ -1,0 +1,39 @@
+.posts-container {
+  height: 100vh;
+  width: 35%;
+  background: antiquewhite;
+}
+
+.post-page {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-post {
+  width: 100%;
+  height: 50vh;
+  background: aquamarine;
+}
+.post-owner {
+  width: 100%;
+  height: 12%;
+  background: blue;
+}
+.post-image {
+  width: 100%;
+  height: 65%;
+  background: aqua;
+}
+.post-footer {
+  width: 100%;
+  height: 12%;
+  background: blueviolet;
+}
+.post-caption {
+  width: 100%;
+  height: 12%;
+  background: yellowgreen;
+}

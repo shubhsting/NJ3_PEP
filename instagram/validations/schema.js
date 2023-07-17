@@ -4,6 +4,8 @@ const signUpSchema = Joi.object({
   userName: Joi.string().min(6).max(10).required(),
   password: Joi.string().required(),
   firstName: Joi.string().required(),
+  lastName: Joi.string(),
+  phone: Joi.string()
 });
 
 const loginSchema = Joi.object({

@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       postId: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
       },
       commentedBy: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
       },
       content: {
         type: DataTypes.STRING,
@@ -21,8 +21,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "post_comments_instagram",
-      timestamps: false
+      timestamps: false,
     }
   );
+
+  PostComment.associate = function (models) {
+    PostComment.belongsTo(models.Post, {
+      foreignKey: "postId",
+    });
+    PostComment.belongsTo(models.User, {
+      foreignKey: "commentedBy"
+    })
+  };
   return PostComment;
 };

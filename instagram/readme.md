@@ -72,3 +72,20 @@ signup/login
 create a post
 delete a post 
 update a post
+
+
+
+user -> fetch posts-> list of posts, post details, likes details, comment details
+
+
+
+SELECT `Post`.`*`, `PostLike.*` FROM `user_posts_instagram` AS `Post` INNER JOIN `post_likes_instagram` AS `PostLikes` ON `Post`.`id` = `PostLikes`.`postId`
+
+
+
+for joins 3 things:
+
+
+1) the column which is common in both tables, add them as foreign key in real table using migration.
+2) associate both columns in local models using associations.
+3) in find all query, use include

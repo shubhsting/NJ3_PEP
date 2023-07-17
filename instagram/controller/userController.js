@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-
 async function login(req, res) {
   try {
     const { email, password, userName } = req.body;
@@ -40,7 +39,7 @@ async function login(req, res) {
       token: token,
     });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return res.status(500).send({
       message: "exception occurred while logging in",
     });
@@ -85,4 +84,47 @@ async function signup(req, res) {
   }
 }
 
-module.exports = { login, signup };
+async function getPosts(req, res) {
+  try {
+    const posts = await db.Post.findAll({
+      attributes: ["postContent", "imageURL"],
+      include: [
+        {
+          model: db.PostLike,
+          attributes: ['userId'],
+          required: true,
+          include: [{
+            model: db.User,
+            attributes: ["firstName", "lastName"],
+            required: true
+          }]
+        },
+        {
+          model: db.PostComment,
+          attributes: ["content"],
+          required: true,
+          include: [{
+            model: db.User,
+            attributes: ["firstName", "lastName"],
+            required: true
+          }]
+        },
+        {
+          model: db.User,
+          attributes: ["firstName", "lastName"],
+          required: true
+        }
+      ],
+    });
+    return res.status(200).send({
+      message: "posts fetched successfully",
+      posts,
+    });
+  } catch (e) {
+    console.log(e)
+    return res.status(500).send({
+      message: "exception occurred while getting posts",
+    });
+  }
+}
+module.exports = { login, signup, getPosts };

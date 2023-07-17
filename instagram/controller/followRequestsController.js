@@ -1,3 +1,5 @@
+const db = require("../models");
+
 async function createfollowRequest(req, res) {
   try {
     const { userId } = request.params;

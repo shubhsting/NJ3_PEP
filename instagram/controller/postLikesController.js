@@ -6,9 +6,15 @@ async function addLike(req, res) {
 
     const post = await db.Post.findByPk(postId);
 
-    const newLikeCount = post.likeCount + 1;
+    const postLike = await db.PostLike.findOne({ postId, userId: req.user.id });
+    if (postLike) {
+      return res.status(400).send({
+        message: "you can not add multiple likes to this image!!",
+      });
+    }
+    const newLikeCount = post.likesCount + 1;
     await db.Post.update(
-      { likeCount: newLikeCount },
+      { likesCount: newLikeCount },
       { where: { id: postId } }
     );
 
@@ -26,10 +32,15 @@ async function undoLike(req, res) {
     const { postId } = req.params;
 
     const post = await db.Post.findByPk(postId);
-
-    const newLikeCount = post.likeCount - 1;
+    const postLike = await db.PostLike.findOne({ postId, userId: req.user.id });
+    if (!postLike) {
+      return res.status(400).send({
+        message: "you can not un like a post because you never liked it!!",
+      });
+    }
+    const newLikeCount = post.likesCount - 1;
     await db.Post.update(
-      { likeCount: newLikeCount },
+      { likesCount: newLikeCount },
       { where: { id: postId } }
     );
     await db.PostLike.destroy({ where: { postId, userId: req.user.id } });

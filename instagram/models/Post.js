@@ -19,13 +19,26 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BIGINT,
       },
       postedBy: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
       },
     },
     {
       tableName: "user_posts_instagram",
-      timestamps: false
+      timestamps: false,
     }
   );
+
+  Post.associate = function (model) {
+    Post.hasMany(model.PostLike, {
+      foreignKey: "postId",
+    });
+
+    Post.hasMany(model.PostComment, {
+      foreignKey: "postId"
+    })
+    Post.belongsTo(model.User, {
+      foreignKey: "postedBy"
+    })
+  };
   return Post;
 };

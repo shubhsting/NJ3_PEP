@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       postId: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
       },
       userId: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
       },
     },
     {
@@ -21,5 +21,14 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false
     }
   );
+
+  PostLike.associate = function (models) {
+    PostLike.belongsTo(models.Post, {
+      foreignKey: 'postId'
+    })
+    PostLike.belongsTo(models.User, {
+      foreignKey: "userId"
+    })
+  }
   return PostLike;
 };

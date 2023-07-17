@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING,
-      }, 
+      },
       firstName: {
         type: DataTypes.STRING,
       },
@@ -33,8 +33,22 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "users_instagram",
-      timestamps: false
+      timestamps: false,
     }
   );
+
+  User.associate = function (model) {
+    User.hasMany(model.PostLike, {
+      foreignKey: "userId",
+    });
+
+    User.hasMany(model.PostComment, {
+      foreignKey: "commentedBy"
+    })
+
+    User.hasMany(model.Post, {
+      foreignKey: "postedBy"
+    })
+  };
   return User;
 };

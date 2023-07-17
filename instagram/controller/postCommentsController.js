@@ -13,7 +13,7 @@ async function addPostComment(req, res) {
       });
     }
     const postComment = await db.PostComment.create({
-      postId,
+      postId: parseInt(postId),
       content,
       commentedBy: req.user.id,
     });

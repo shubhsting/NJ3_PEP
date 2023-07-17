@@ -23,6 +23,7 @@ async function userAuth(req, res, next) {
     req.user = user;
     next();
   } catch (e) {
+    console.log(e)
     return res.status(500).send({
       message: "exception occured in user auth middleware",
     });

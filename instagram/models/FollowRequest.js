@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       sentBy: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
       },
       sentTo: {
-        type: DataTypes.BIGINT,
+        type: DataTypes.INTEGER,
       },
       status: {
         type: DataTypes.ENUM,

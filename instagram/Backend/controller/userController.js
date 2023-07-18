@@ -87,16 +87,15 @@ async function signup(req, res) {
 async function getPosts(req, res) {
   try {
     const posts = await db.Post.findAll({
-      attributes: ["postContent", "imageURL"],
+      attributes: ["postContent", "imageURL", "id"],
       include: [
         {
           model: db.PostLike,
           attributes: ["userId"],
-          required: true,
           include: [
             {
               model: db.User,
-              attributes: ["firstName", "lastName"],
+              attributes: ["firstName", "lastName", "id"],
               required: true,
             },
           ],
@@ -104,25 +103,35 @@ async function getPosts(req, res) {
         {
           model: db.PostComment,
           attributes: ["content"],
-          required: true,
           include: [
             {
               model: db.User,
-              attributes: ["firstName", "lastName"],
+              attributes: ["firstName", "lastName", "userName"],
               required: true,
             },
           ],
         },
         {
           model: db.User,
-          attributes: ["firstName", "lastName"],
+          attributes: ["firstName", "lastName", "userName"],
           required: true,
         },
       ],
     });
+    const myLikedPosts = []
+    for(const post of posts) {
+      const likes = post.PostLikes;
+      for(const postLike of likes) {
+        if(postLike.User.id === req.user.id) {
+          myLikedPosts.push(post.id)
+        }
+      }
+    }
     return res.status(200).send({
       message: "posts fetched successfully",
       posts,
+      myLikedPosts,
+      user: req.user
     });
   } catch (e) {
     console.log(e);

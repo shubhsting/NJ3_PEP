@@ -4,9 +4,10 @@ async function addLike(req, res) {
   try {
     const { postId } = req.params;
 
-    const post = await db.Post.findByPk(postId);
-
-    const postLike = await db.PostLike.findOne({ postId, userId: req.user.id });
+    const post = await db.Post.findByPk(parseInt(postId));
+    const postLike = await db.PostLike.findOne({
+      where: { postId: parseInt(postId), userId: req.user.id },
+    });
     if (postLike) {
       return res.status(400).send({
         message: "you can not add multiple likes to this image!!",
@@ -21,6 +22,7 @@ async function addLike(req, res) {
     await db.PostLike.create({ postId, userId: req.user.id });
     return res.status(200).send({ message: "post liked" });
   } catch (e) {
+    console.log(e)
     return res.status(500).send({
       message: "exception occurred while liking the post",
     });
@@ -32,7 +34,9 @@ async function undoLike(req, res) {
     const { postId } = req.params;
 
     const post = await db.Post.findByPk(postId);
-    const postLike = await db.PostLike.findOne({ postId, userId: req.user.id });
+    const postLike = await db.PostLike.findOne({
+      where: { postId, userId: req.user.id },
+    });
     if (!postLike) {
       return res.status(400).send({
         message: "you can not un like a post because you never liked it!!",

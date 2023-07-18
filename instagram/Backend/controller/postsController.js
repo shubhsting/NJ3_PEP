@@ -2,11 +2,12 @@ const db = require("../models");
 
 async function createPost(req, res) {
   try {
-    const { postContent, imageURL } = req.body;
+    const { postContent } = req.body;
+    const imageDetails = req.files[0];
 
     const post = await db.Post.create({
       postContent,
-      imageURL,
+      imageURL: imageDetails.path,
       postedBy: req.user.id,
     });
 
@@ -15,6 +16,7 @@ async function createPost(req, res) {
       message: "post uploaded successfully!!",
     });
   } catch (e) {
+    console.log(e)
     return res.status(500).send({
       message: "exception occured while creating post",
     });
